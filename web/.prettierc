@@ -1,0 +1,7 @@
+{
+  "trailingComma": "yes",
+  "doubleQuote": true,
+  "jsxDoubleQuote": true,
+  "arrowParens": "always",
+  "endOfLine": "auto"
+}
