@@ -14,19 +14,21 @@ const ForgotPasswordPage = () => {
           </Text>
         </Card.Header>
         <Card.Body>
-          <InputField
-            label="Your new password"
-            placeholder="your_password"
-            icon={<FaLock />}
-            isPassword
-          ></InputField>
-          <InputField
-            label="Confirm the password"
-            placeholder="your_password"
-            icon={<FaLock />}
-            isLast
-            isPassword
-          ></InputField>
+          <form>
+            <InputField
+              label="Your new password"
+              placeholder="your_password"
+              icon={<FaLock />}
+              isPassword
+            ></InputField>
+            <InputField
+              label="Confirm the password"
+              placeholder="your_password"
+              icon={<FaLock />}
+              isLast
+              isPassword
+            ></InputField>
+          </form>
         </Card.Body>
         <Card.Footer css={styles.cardBar}>
           <Button size="lg" color="warning">

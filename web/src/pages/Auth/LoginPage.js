@@ -14,22 +14,24 @@ const LoginPage = () => {
           </Text>
         </Card.Header>
         <Card.Body>
-          <InputField
-            label="Your login"
-            placeholder="test_login"
-            contentLeft={<FaUser />}
-          ></InputField>
-          <InputField
-            label="Your email"
-            placeholder="test@gmail.com"
-            contentLeft={<FaAt />}
-          ></InputField>
-          <InputField
-            label="Your password"
-            placeholder="your_password"
-            contentLeft={<FaLock />}
-            isLast={true}
-          ></InputField>
+          <form>
+            <InputField
+              label="Your login"
+              placeholder="test_login"
+              contentLeft={<FaUser />}
+            ></InputField>
+            <InputField
+              label="Your email"
+              placeholder="test@gmail.com"
+              contentLeft={<FaAt />}
+            ></InputField>
+            <InputField
+              label="Your password"
+              placeholder="your_password"
+              contentLeft={<FaLock />}
+              isLast={true}
+            ></InputField>
+          </form>
         </Card.Body>
         <Card.Footer css={styles.cardBar}>
           <Button size="lg" color="warning">

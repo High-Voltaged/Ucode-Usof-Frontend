@@ -1,7 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import { mainRoutes } from "~/consts/routes";
-import { LandingPage, LoginPage, RegisterPage } from "~/pages";
-import ForgotPasswordPage from "~/pages/auth/ForgotPasswordPage";
+import {
+  ForgotPasswordPage,
+  LandingPage,
+  LoginPage,
+  RegisterPage,
+} from "~/pages";
 
 const MainRoutes = () => {
   return (
