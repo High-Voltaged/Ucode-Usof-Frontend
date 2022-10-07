@@ -1,8 +1,9 @@
 import { Dropdown, Text } from "@nextui-org/react";
 import { dropdownLabels } from "~/consts/labels";
+import BaseButton from "~/components/Button/Button";
 import styles from "./NavDropdown.styles";
 
-const NavDropdown = ({ children }) => {
+const NavDropdown = ({ user, children }) => {
   const dropdownItems = dropdownLabels.map((item) => (
     <Dropdown.Item
       key={item.id}
@@ -13,6 +14,15 @@ const NavDropdown = ({ children }) => {
       {item.label}
     </Dropdown.Item>
   ));
+
+  if (!user.id) {
+    return (
+      <div style={styles.flexContainer}>
+        {children}
+        <BaseButton css={styles.button} text="Login"></BaseButton>
+      </div>
+    );
+  }
 
   return (
     <Dropdown placement="bottom-right">
@@ -27,7 +37,7 @@ const NavDropdown = ({ children }) => {
             Signed in as
           </Text>
           <Text b css={styles.text}>
-            zoey@example.com
+            {user.login}
           </Text>
         </Dropdown.Item>
 
