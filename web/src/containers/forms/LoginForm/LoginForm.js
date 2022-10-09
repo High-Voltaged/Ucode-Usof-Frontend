@@ -1,37 +1,27 @@
-import { useContext, useState } from "react";
 import { Row } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { FaAt, FaLock, FaUser } from "react-icons/fa";
-import { useDispatch } from "react-redux";
 
 import InputField from "~/components/InputField/InputField";
 import { login } from "~/redux/auth-slice";
 import { loginSchema } from "~/validation/auth";
 import { loginValues } from "~/containers/forms/const";
-import { AlertContext } from "~/context/Alert";
 import BaseButton from "~/components/Button/Button";
-import { colors } from "~/theme/config";
+import useDispatchRequest from "~/hooks/use-dispatch-request";
+import { SUCCESS_MSGS } from "~/consts/messages";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const { setAlert } = useContext(AlertContext);
+  const request = (values) => login(values);
+  const { sendRequest, loading } = useDispatchRequest(
+    request,
+    SUCCESS_MSGS.LOGIN_SUCCESS
+  );
 
   const { errors, touched, handleSubmit, handleBlur, setFieldValue } =
     useFormik({
       initialValues: loginValues,
       validationSchema: loginSchema,
-      onSubmit: (values) => {
-        setLoading(true);
-        dispatch(login(values))
-          .unwrap()
-          .catch((err) => {
-            setAlert(err, colors.error);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      },
+      onSubmit: (values) => sendRequest(values),
     });
 
   return (
