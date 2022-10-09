@@ -4,7 +4,13 @@ const { Button, Loading } = require("@nextui-org/react");
 
 const BaseButton = ({ text, loading, ...props }) => {
   return (
-    <Button type="submit" size="lg" color={colors.feature}>
+    <Button
+      {...props}
+      type="submit"
+      size="lg"
+      css={{ w: "100%" }}
+      color={colors.feature}
+    >
       {loading ? <Loading color="currentColor" size="md" /> : text}
     </Button>
   );

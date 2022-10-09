@@ -11,7 +11,7 @@ const InputField = ({
   ...props
 }) => {
   const otherProps = {
-    width: "300px",
+    width: "100%",
     size: "lg",
   };
 

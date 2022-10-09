@@ -1,4 +1,4 @@
-import { Row } from "@nextui-org/react";
+import { Link, Row } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { FaAt, FaLock, FaUser } from "react-icons/fa";
 
@@ -9,6 +9,8 @@ import { loginValues } from "~/containers/forms/const";
 import BaseButton from "~/components/Button/Button";
 import useDispatchRequest from "~/hooks/use-dispatch-request";
 import { SUCCESS_MSGS } from "~/consts/messages";
+import { mainRoutes } from "~/consts/routes";
+import { colors } from "~/theme/config";
 
 const LoginForm = () => {
   const request = (values) => login(values);
@@ -57,7 +59,12 @@ const LoginForm = () => {
         setFieldValue={setFieldValue}
         helperText={touched.password && errors.password}
       />
-      <Row justify="center">
+      <Row justify="flex-end">
+        <Link href={mainRoutes.forgotPassword} color={colors.feature}>
+          Forgot your password?
+        </Link>
+      </Row>
+      <Row justify="center" css={{ mt: "10px" }}>
         <BaseButton loading={loading} text="Login" />
       </Row>
     </form>
