@@ -16,7 +16,7 @@ const InputField = ({
   };
 
   const {
-    bindings: { onChange, value },
+    bindings: { onChange },
     currentRef,
   } = useInput("");
 
@@ -34,7 +34,6 @@ const InputField = ({
           size={otherProps.size}
           status={error ? colors.error : "default"}
           helperColor={colors.error}
-          value={value}
           onChange={handleChange}
         ></Input>
       ) : (
@@ -44,7 +43,6 @@ const InputField = ({
           size={otherProps.size}
           status={error ? colors.error : "default"}
           helperColor={colors.error}
-          value={value}
           onChange={handleChange}
         ></Input.Password>
       )}

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { AlertContext } from "~/context/Alert";
 import { colors } from "~/theme/config";
 
-const useDispatchRequest = (request, successMessage = "") => {
+const useDispatchRequest = (request, successMessage = "", resetForm) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { setAlert } = useContext(AlertContext);
@@ -15,6 +15,7 @@ const useDispatchRequest = (request, successMessage = "") => {
         .unwrap()
         .then(() => {
           successMessage && setAlert(successMessage, colors.success);
+          resetForm();
         })
         .catch((err) => {
           setAlert(err, colors.error);
@@ -23,7 +24,7 @@ const useDispatchRequest = (request, successMessage = "") => {
           setLoading(false);
         });
     },
-    [dispatch, request, setAlert, successMessage]
+    [dispatch, request, setAlert, successMessage, resetForm]
   );
 
   return { sendRequest, loading };

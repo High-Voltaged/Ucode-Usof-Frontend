@@ -13,18 +13,26 @@ import { mainRoutes } from "~/consts/routes";
 import { colors } from "~/theme/config";
 
 const LoginForm = () => {
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+    resetForm,
+  } = useFormik({
+    initialValues: loginValues,
+    validationSchema: loginSchema,
+    onSubmit: (values) => sendRequest(values),
+  });
+
   const request = (values) => login(values);
   const { sendRequest, loading } = useDispatchRequest(
     request,
-    SUCCESS_MSGS.LOGIN_SUCCESS
+    SUCCESS_MSGS.LOGIN_SUCCESS,
+    resetForm
   );
-
-  const { errors, touched, handleSubmit, handleBlur, setFieldValue } =
-    useFormik({
-      initialValues: loginValues,
-      validationSchema: loginSchema,
-      onSubmit: (values) => sendRequest(values),
-    });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -33,6 +41,7 @@ const LoginForm = () => {
         label="Your login"
         placeholder="test_login"
         contentLeft={<FaUser />}
+        value={values.login}
         error={Boolean(touched.login && errors.login)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
@@ -43,6 +52,7 @@ const LoginForm = () => {
         label="Your email"
         placeholder="test@gmail.com"
         contentLeft={<FaAt />}
+        value={values.email}
         error={Boolean(touched.email && errors.email)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
@@ -54,6 +64,7 @@ const LoginForm = () => {
         placeholder="your_password"
         isPassword
         contentLeft={<FaLock />}
+        value={values.password}
         error={Boolean(touched.password && errors.password)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}

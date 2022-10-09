@@ -12,21 +12,29 @@ import useRequest from "~/hooks/use-request";
 import { useSearchParams } from "react-router-dom";
 
 const ResetPasswordForm = () => {
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+    resetForm,
+  } = useFormik({
+    initialValues: resetPasswordValues,
+    validationSchema: resetPassSchema,
+    onSubmit: (values) => sendRequest({ ...values, resetToken }),
+  });
+
   const [searchParams] = useSearchParams();
   const resetToken = searchParams.get("resetToken");
 
   const request = (values) => AuthRequests.resetPassword(values);
   const { sendRequest, loading } = useRequest(
     request,
-    SUCCESS_MSGS.RESET_PASS_SUCCESS
+    SUCCESS_MSGS.RESET_PASS_SUCCESS,
+    resetForm
   );
-
-  const { errors, touched, handleSubmit, handleBlur, setFieldValue } =
-    useFormik({
-      initialValues: resetPasswordValues,
-      validationSchema: resetPassSchema,
-      onSubmit: (values) => sendRequest({ ...values, resetToken }),
-    });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -36,6 +44,7 @@ const ResetPasswordForm = () => {
         placeholder="your_password"
         contentLeft={<FaLock />}
         isPassword
+        value={values.password}
         error={Boolean(touched.password && errors.password)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}

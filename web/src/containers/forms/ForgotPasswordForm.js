@@ -11,18 +11,26 @@ import AuthRequests from "~/requests/auth";
 import useRequest from "~/hooks/use-request";
 
 const ForgotPasswordForm = () => {
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+    resetForm,
+  } = useFormik({
+    initialValues: forgotPasswordValues,
+    validationSchema: forgotPassSchema,
+    onSubmit: (values) => sendRequest(values),
+  });
+
   const request = (values) => AuthRequests.forgotPassword(values);
   const { sendRequest, loading } = useRequest(
     request,
-    SUCCESS_MSGS.FORGOT_PASS_SUCCESS
+    SUCCESS_MSGS.FORGOT_PASS_SUCCESS,
+    resetForm
   );
-
-  const { errors, touched, handleSubmit, handleBlur, setFieldValue } =
-    useFormik({
-      initialValues: forgotPasswordValues,
-      validationSchema: forgotPassSchema,
-      onSubmit: (values) => sendRequest(values),
-    });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -31,6 +39,7 @@ const ForgotPasswordForm = () => {
         label="Your email"
         placeholder="test@gmail.com"
         contentLeft={<FaAt />}
+        value={values.email}
         error={Boolean(touched.email && errors.email)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}

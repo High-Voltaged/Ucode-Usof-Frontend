@@ -12,18 +12,26 @@ import useRequest from "~/hooks/use-request";
 import { SUCCESS_MSGS } from "~/consts/messages";
 
 const RegisterForm = () => {
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+    resetForm,
+  } = useFormik({
+    initialValues: registerValues,
+    validationSchema: registerSchema,
+    onSubmit: (values) => sendRequest(values),
+  });
+
   const request = (data) => AuthRequests.register(data);
   const { sendRequest, loading } = useRequest(
     request,
-    SUCCESS_MSGS.REGISTER_SUCCESS
+    SUCCESS_MSGS.REGISTER_SUCCESS,
+    resetForm
   );
-
-  const { errors, touched, handleSubmit, handleBlur, setFieldValue } =
-    useFormik({
-      initialValues: registerValues,
-      validationSchema: registerSchema,
-      onSubmit: (values) => sendRequest(values),
-    });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -32,6 +40,7 @@ const RegisterForm = () => {
         label="Your login"
         placeholder="test_login"
         contentLeft={<FaUser />}
+        value={values.login}
         error={Boolean(touched.login && errors.login)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
@@ -42,6 +51,7 @@ const RegisterForm = () => {
         label="Your email"
         placeholder="test@gmail.com"
         contentLeft={<FaAt />}
+        value={values.email}
         error={Boolean(touched.email && errors.email)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
@@ -52,6 +62,7 @@ const RegisterForm = () => {
         label="Your full name"
         placeholder="John Doe"
         contentLeft={<FaAt />}
+        value={values.fullName}
         error={Boolean(touched.fullName && errors.fullName)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
@@ -63,6 +74,7 @@ const RegisterForm = () => {
         placeholder="your_password"
         isPassword
         contentLeft={<FaLock />}
+        value={values.password}
         error={Boolean(touched.password && errors.password)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
@@ -74,6 +86,7 @@ const RegisterForm = () => {
         placeholder="your_password"
         isPassword
         contentLeft={<FaLock />}
+        value={values.passwordConfirm}
         error={Boolean(touched.passwordConfirm && errors.passwordConfirm)}
         onBlur={handleBlur}
         setFieldValue={setFieldValue}

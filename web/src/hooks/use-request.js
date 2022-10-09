@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from "react";
 import { AlertContext } from "~/context/Alert";
 import { colors } from "~/theme/config";
 
-const useRequest = (request, successMessage) => {
+const useRequest = (request, successMessage = "", resetForm) => {
   const [loading, setLoading] = useState(false);
   const { setAlert } = useContext(AlertContext);
 
@@ -11,6 +11,7 @@ const useRequest = (request, successMessage) => {
       setLoading(true);
       request(data)
         .then(() => {
+          resetForm();
           setAlert(successMessage, colors.success);
         })
         .catch((err) => {
@@ -20,7 +21,7 @@ const useRequest = (request, successMessage) => {
           setLoading(false);
         });
     },
-    [successMessage, request, setAlert]
+    [successMessage, request, setAlert, resetForm]
   );
 
   return { sendRequest, loading };
