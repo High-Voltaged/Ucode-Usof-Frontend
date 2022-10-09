@@ -1,22 +1,22 @@
 import { Card } from "@nextui-org/react";
 import Heading from "~/components/Heading/Heading.js";
-import ResetPasswordForm from "~/containers/forms/ResetPasswordForm";
+import ForgotPasswordForm from "~/containers/forms/ForgotPasswordForm";
 import Layout from "~/containers/layout/Layout.js";
 import styles from "./Auth.styles.js";
 
-const ResetPasswordPage = () => {
+const ForgotPassword = () => {
   return (
     <Layout>
       <Card css={styles.card}>
         <Card.Header css={styles.cardBar}>
-          <Heading text="Reset Password" />
+          <Heading text="Forgot Password" />
         </Card.Header>
         <Card.Body>
-          <ResetPasswordForm />
+          <ForgotPasswordForm />
         </Card.Body>
       </Card>
     </Layout>
   );
 };
 
-export default ResetPasswordPage;
+export default ForgotPassword;

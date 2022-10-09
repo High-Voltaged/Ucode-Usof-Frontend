@@ -12,6 +12,7 @@ const initialState = {
     login: "",
     avatar: "",
   },
+  isAuthenticated: false,
   loading: true,
   error: "",
 };
@@ -39,6 +40,7 @@ export const authenticate = createAsyncThunk(
 
         const { data } = await axiosClient.get(`/users/${user.id}`);
         dispatch(initUser({ role: user.role, ...data }));
+        dispatch(setAuthenticated(true));
       }
     } catch (e) {
       return rejectWithValue(e.response.data.message);
@@ -53,6 +55,9 @@ const authSlice = createSlice({
     initUser(state, action) {
       const { id, role, email, login, avatar } = action.payload;
       state.user = { id, role, email, login, avatar };
+    },
+    setAuthenticated(state, action) {
+      state.isAuthenticated = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -83,5 +88,5 @@ const authSlice = createSlice({
 
 const { reducer, actions } = authSlice;
 
-export const { initUser } = actions;
+export const { initUser, setAuthenticated } = actions;
 export default reducer;

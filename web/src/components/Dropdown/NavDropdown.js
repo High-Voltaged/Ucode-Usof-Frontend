@@ -1,6 +1,5 @@
 import { Dropdown } from "@nextui-org/react";
 import { dropdownLabels } from "~/consts/labels";
-import BaseButton from "~/components/Button/Button";
 import styles from "./NavDropdown.styles";
 import { colors } from "~/theme/config";
 
@@ -15,15 +14,6 @@ const NavDropdown = ({ user, children }) => {
       {item.label}
     </Dropdown.Item>
   ));
-
-  if (!user.id) {
-    return (
-      <div style={styles.flexContainer}>
-        {children}
-        <BaseButton css={styles.button} text="Login"></BaseButton>
-      </div>
-    );
-  }
 
   return (
     <Dropdown placement="bottom-right">

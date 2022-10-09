@@ -76,7 +76,7 @@ const LoginForm = () => {
         </Link>
       </Row>
       <Row justify="center" css={{ mt: "10px" }}>
-        <BaseButton loading={loading} text="Login" />
+        <BaseButton block loading={loading} text="Login" />
       </Row>
     </form>
   );

@@ -4,6 +4,7 @@ import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 
 import NavDropdown from "~/components/Dropdown/NavDropdown";
 import SearchInput from "~/components/SearchInput/SearchInput";
+import BaseButton from "~/components/Button/Button";
 import styles from "./Navbar.styles";
 import { links } from "~/consts/labels";
 import { AVATAR_PATH } from "~/consts/utils";
@@ -67,7 +68,10 @@ const AppNavbar = () => {
             </NavDropdown>
           </>
         ) : (
-          <Navbar.Item>{userAvatar}</Navbar.Item>
+          <>
+            <Navbar.Item>{userAvatar}</Navbar.Item>
+            <BaseButton css={styles.button} text="Login"></BaseButton>
+          </>
         )}
       </Navbar.Content>
 

@@ -93,7 +93,7 @@ const RegisterForm = () => {
         helperText={touched.passwordConfirm && errors.passwordConfirm}
       />
       <Row justify="center">
-        <BaseButton loading={loading} text="Submit" />
+        <BaseButton block loading={loading} text="Submit" />
       </Row>
     </form>
   );

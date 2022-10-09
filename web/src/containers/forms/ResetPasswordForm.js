@@ -51,7 +51,7 @@ const ResetPasswordForm = () => {
         helperText={touched.password && errors.password}
       ></InputField>
       <Row justify="center">
-        <BaseButton loading={loading} text="Confirm" />
+        <BaseButton block loading={loading} text="Confirm" />
       </Row>
     </form>
   );

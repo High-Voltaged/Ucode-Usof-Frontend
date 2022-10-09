@@ -1,29 +1,29 @@
 import { Card, Link, Text } from "@nextui-org/react";
 import Heading from "~/components/Heading/Heading.js";
-import LoginForm from "~/containers/forms/LoginForm";
+import { mainRoutes } from "~/consts/routes.js";
+import RegisterForm from "~/containers/forms/RegisterForm";
 import Layout from "~/containers/layout/Layout.js";
-import { mainRoutes } from "~/consts/routes";
 import { colors } from "~/theme/config.js";
 import styles from "./Auth.styles.js";
 
-const LoginPage = () => {
+const Register = () => {
   return (
     <Layout>
       <Card css={styles.card}>
         <Card.Header css={styles.cardBar}>
-          <Heading text="Authorization" />
+          <Heading text="Registration" />
         </Card.Header>
         <Card.Body>
-          <LoginForm />
+          <RegisterForm />
         </Card.Body>
         <Card.Footer css={styles.cardFooter}>
-          <Text>Don't have an account?</Text>
+          <Text>Already have an account?</Text>
           <Link
-            href={mainRoutes.register}
+            href={mainRoutes.login}
             color={colors.feature}
             css={styles.link}
           >
-            Register
+            Login
           </Link>
         </Card.Footer>
       </Card>
@@ -31,4 +31,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Register;
