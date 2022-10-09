@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import InputField from "~/components/Form/InputField";
+import InputField from "~/components/InputField/InputField";
 
 const SearchInput = () => {
   return (
@@ -12,7 +12,7 @@ const SearchInput = () => {
       css={{
         w: "100%",
         "@xsMax": {
-          mw: "300px",
+          mw: "200px",
         },
       }}
     ></InputField>

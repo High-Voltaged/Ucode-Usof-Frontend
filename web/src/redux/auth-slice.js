@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import AuthRequests from "~/requests/auth";
 import { axiosClient } from "~/utils/axios-client";
 import { getLocalStorageItem, updateLocalStorage } from "~/utils/local-storage";
 import { decodeToken } from "~/utils/token";
@@ -19,7 +20,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (userData, { rejectWithValue, dispatch }) => {
     try {
-      const { data } = await axiosClient.post("/auth/login", userData);
+      const { data } = await AuthRequests.login(userData);
       updateLocalStorage("accessToken", data.accessToken);
       dispatch(authenticate());
     } catch (e) {
@@ -57,15 +58,12 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state, _action) => {
-        state.loading = true;
         state.error = "";
       })
       .addCase(login.fulfilled, (state, _action) => {
-        state.loading = false;
         state.error = "";
       })
       .addCase(login.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload;
       })
       .addCase(authenticate.pending, (state, _action) => {

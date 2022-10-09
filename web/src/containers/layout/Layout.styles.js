@@ -4,6 +4,7 @@ const styles = {
     alignItems: "center",
     display: "flex",
     flexGrow: 1,
+    py: "30px",
   },
 };
 

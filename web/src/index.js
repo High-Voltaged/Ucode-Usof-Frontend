@@ -7,16 +7,20 @@ import { NextUIProvider } from "@nextui-org/react";
 
 import "~/styles/index.css";
 import App from "~/containers/app/App.js";
+import { AlertProvider } from "~/context/Alert";
+import theme from "~/theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <NextUIProvider>
-          <App />
-        </NextUIProvider>
-      </Provider>
-    </BrowserRouter>
+    <AlertProvider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <NextUIProvider theme={theme}>
+            <App />
+          </NextUIProvider>
+        </Provider>
+      </BrowserRouter>
+    </AlertProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,6 +1,7 @@
-import { Button, Card, Text } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 import { FaLock } from "react-icons/fa";
-import InputField from "~/components/Form/InputField";
+import Heading from "~/components/Heading/Heading.js";
+import InputField from "~/components/InputField/InputField";
 import Layout from "~/containers/layout/Layout.js";
 import styles from "./Auth.styles.js";
 
@@ -9,9 +10,7 @@ const ForgotPasswordPage = () => {
     <Layout>
       <Card css={styles.card}>
         <Card.Header css={styles.cardBar}>
-          <Text color="warning" h2 weight="semibold">
-            Reset Password
-          </Text>
+          <Heading text="Reset Password" />
         </Card.Header>
         <Card.Body>
           <form>

@@ -4,7 +4,6 @@ import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 
 import NavDropdown from "~/components/Dropdown/NavDropdown";
 import SearchInput from "~/components/SearchInput/SearchInput";
-import BaseAvatar from "~/components/Avatar/Avatar";
 import styles from "./Navbar.styles";
 import { links } from "~/consts/labels";
 import { AVATAR_PATH } from "~/consts/utils";
@@ -12,6 +11,28 @@ import { AVATAR_PATH } from "~/consts/utils";
 const AppNavbar = () => {
   const { user } = useSelector((state) => state.auth);
   const [activeLink, setActiveLink] = useState(-1);
+
+  const userAvatar = (
+    <Avatar
+      as="button"
+      bordered
+      color="warning"
+      size="md"
+      src={AVATAR_PATH(user.avatar)}
+    />
+  );
+
+  const navLinks = links.map((link) => (
+    <Navbar.Link
+      key={link.id}
+      color="inherit"
+      onPress={() => setActiveLink(link.id)}
+      isActive={activeLink === link.id}
+      href={link.href}
+    >
+      {link.label}
+    </Navbar.Link>
+  ));
 
   return (
     <Navbar>
@@ -28,34 +49,25 @@ const AppNavbar = () => {
         hideIn="xs"
         variant="highlight"
       >
-        {links.map((link) => (
-          <Navbar.Link
-            key={link.id}
-            color="inherit"
-            onPress={() => setActiveLink(link.id)}
-            isActive={activeLink === link.id}
-            href={link.href}
-          >
-            {link.label}
-          </Navbar.Link>
-        ))}
+        {navLinks}
       </Navbar.Content>
       <Navbar.Content css={styles.navbarContent}>
         <Navbar.Item css={styles.navbarItem}>
           <SearchInput />
         </Navbar.Item>
 
-        <NavDropdown user={user}>
-          <Navbar.Item>
-            {user.id ? (
-              <Dropdown.Trigger>
-                <BaseAvatar as="button" src={AVATAR_PATH(user.avatar)} />
-              </Dropdown.Trigger>
-            ) : (
-              <BaseAvatar src={AVATAR_PATH(user.avatar)} />
-            )}
-          </Navbar.Item>
-        </NavDropdown>
+        {user.id ? (
+          <>
+            <Text b color="warning">
+              {user.login}
+            </Text>
+            <NavDropdown user={user}>
+              <Dropdown.Trigger>{userAvatar}</Dropdown.Trigger>
+            </NavDropdown>
+          </>
+        ) : (
+          <Navbar.Item>{userAvatar}</Navbar.Item>
+        )}
       </Navbar.Content>
 
       <Navbar.Collapse>

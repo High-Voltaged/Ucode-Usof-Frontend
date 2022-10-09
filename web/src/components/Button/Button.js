@@ -1,9 +1,9 @@
-const { Button, Text } = require("@nextui-org/react");
+const { Button, Loading } = require("@nextui-org/react");
 
-const BaseButton = ({ text, ...props }) => {
+const BaseButton = ({ text, loading, ...props }) => {
   return (
-    <Button {...props} auto color="warning">
-      <Text>{text}</Text>
+    <Button type="submit" size="lg" color="warning">
+      {loading ? <Loading color="currentColor" size="md" /> : text}
     </Button>
   );
 };

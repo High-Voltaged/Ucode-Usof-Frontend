@@ -17,6 +17,10 @@ div#root {
   height: 100%;
 }
 
+.nextui-input-helper-text {
+  font-size: 12px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
