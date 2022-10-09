@@ -7,6 +7,7 @@ import SearchInput from "~/components/SearchInput/SearchInput";
 import styles from "./Navbar.styles";
 import { links } from "~/consts/labels";
 import { AVATAR_PATH } from "~/consts/utils";
+import { colors } from "~/theme/config";
 
 const AppNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -16,7 +17,7 @@ const AppNavbar = () => {
     <Avatar
       as="button"
       bordered
-      color="warning"
+      color={colors.feature}
       size="md"
       src={AVATAR_PATH(user.avatar)}
     />
@@ -44,7 +45,7 @@ const AppNavbar = () => {
         </Text>
       </Navbar.Brand>
       <Navbar.Content
-        activeColor="warning"
+        activeColor={colors.feature}
         enableCursorHighlight
         hideIn="xs"
         variant="highlight"
@@ -58,7 +59,7 @@ const AppNavbar = () => {
 
         {user.id ? (
           <>
-            <Text b color="warning">
+            <Text b color={colors.feature}>
               {user.login}
             </Text>
             <NavDropdown user={user}>

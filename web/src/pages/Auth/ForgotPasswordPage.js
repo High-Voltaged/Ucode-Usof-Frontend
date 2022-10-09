@@ -3,6 +3,7 @@ import { FaLock } from "react-icons/fa";
 import Heading from "~/components/Heading/Heading.js";
 import InputField from "~/components/InputField/InputField";
 import Layout from "~/containers/layout/Layout.js";
+import { colors } from "~/theme/config.js";
 import styles from "./Auth.styles.js";
 
 const ForgotPasswordPage = () => {
@@ -30,7 +31,7 @@ const ForgotPasswordPage = () => {
           </form>
         </Card.Body>
         <Card.Footer css={styles.cardBar}>
-          <Button size="lg" color="warning">
+          <Button size="lg" color={colors.feature}>
             Submit
           </Button>
         </Card.Footer>
