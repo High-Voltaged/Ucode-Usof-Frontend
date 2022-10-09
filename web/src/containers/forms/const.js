@@ -12,4 +12,17 @@ const registerValues = {
   fullName: "",
 };
 
-export { registerValues, loginValues };
+const forgotPasswordValues = {
+  email: "",
+};
+
+const resetPasswordValues = {
+  password: "",
+};
+
+export {
+  registerValues,
+  loginValues,
+  forgotPasswordValues,
+  resetPasswordValues,
+};

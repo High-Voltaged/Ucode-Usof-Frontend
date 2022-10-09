@@ -1,6 +1,6 @@
 import { Card } from "@nextui-org/react";
 import Heading from "~/components/Heading/Heading.js";
-import LoginForm from "~/containers/forms/LoginForm/LoginForm.js";
+import LoginForm from "~/containers/forms/LoginForm";
 import Layout from "~/containers/layout/Layout.js";
 import styles from "./Auth.styles.js";
 

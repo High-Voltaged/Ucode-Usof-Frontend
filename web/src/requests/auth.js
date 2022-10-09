@@ -10,6 +10,14 @@ class AuthRequests {
   static register(data) {
     return axiosClient.post(`/${PREFIX}/register`, data);
   }
+
+  static forgotPassword(data) {
+    return axiosClient.post(`/${PREFIX}/password-reset`, data);
+  }
+
+  static resetPassword({ resetToken, ...data }) {
+    return axiosClient.post(`/${PREFIX}/password-reset/${resetToken}`, data);
+  }
 }
 
 export default AuthRequests;

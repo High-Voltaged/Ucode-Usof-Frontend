@@ -21,3 +21,14 @@ export const registerSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Passwords must match"),
   fullName: Yup.string().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
 });
+
+export const forgotPassSchema = Yup.object().shape({
+  email: Yup.string().email().required(),
+});
+
+export const resetPassSchema = Yup.object().shape({
+  password: Yup.string()
+    .required()
+    .min(PASSWORD_LIMITS[0])
+    .max(PASSWORD_LIMITS[1]),
+});
