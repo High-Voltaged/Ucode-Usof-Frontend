@@ -1,8 +1,8 @@
 import LandingPage from "./landing";
-import LoginPage from "./Auth/LoginPage";
-import RegisterPage from "./Auth/RegisterPage";
-import ResetPasswordPage from "./Auth/ResetPasswordPage";
-import ForgotPasswordPage from "./Auth/ForgotPasswordPage";
+import LoginPage from "./auth/LoginPage";
+import RegisterPage from "./auth/RegisterPage";
+import ResetPasswordPage from "./auth/ResetPasswordPage";
+import ForgotPasswordPage from "./auth/ForgotPasswordPage";
 
 export {
   LandingPage,
