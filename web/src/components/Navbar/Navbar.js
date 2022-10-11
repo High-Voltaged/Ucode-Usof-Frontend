@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 
 import NavDropdown from "~/components/Dropdown/NavDropdown";
@@ -9,8 +10,10 @@ import styles from "./Navbar.styles";
 import { links } from "~/consts/labels";
 import { AVATAR_PATH } from "~/consts/utils";
 import { colors } from "~/theme/config";
+import { mainRoutes } from "~/consts/routes";
 
 const AppNavbar = () => {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [activeLink, setActiveLink] = useState(-1);
 
@@ -35,6 +38,8 @@ const AppNavbar = () => {
       {link.label}
     </Navbar.Link>
   ));
+
+  const loginClickHandler = (_e) => navigate(mainRoutes.login);
 
   return (
     <Navbar>
@@ -63,14 +68,18 @@ const AppNavbar = () => {
             <Text b color={colors.feature}>
               {user.login}
             </Text>
-            <NavDropdown user={user}>
+            <NavDropdown>
               <Dropdown.Trigger>{userAvatar}</Dropdown.Trigger>
             </NavDropdown>
           </>
         ) : (
           <>
             <Navbar.Item>{userAvatar}</Navbar.Item>
-            <BaseButton css={styles.button} text="Login"></BaseButton>
+            <BaseButton
+              onPress={loginClickHandler}
+              css={styles.button}
+              text="Login"
+            />
           </>
         )}
       </Navbar.Content>

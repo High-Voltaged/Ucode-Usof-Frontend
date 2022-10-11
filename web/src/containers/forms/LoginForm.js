@@ -1,5 +1,6 @@
 import { Link, Row } from "@nextui-org/react";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { FaAt, FaLock, FaUser } from "react-icons/fa";
 
 import InputField from "~/components/InputField/InputField";
@@ -13,6 +14,7 @@ import { mainRoutes } from "~/consts/routes";
 import { colors } from "~/theme/config";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const {
     values,
     errors,
@@ -24,7 +26,11 @@ const LoginForm = () => {
   } = useFormik({
     initialValues: loginValues,
     validationSchema: loginSchema,
-    onSubmit: (values) => sendRequest(values),
+    onSubmit: async (values) => {
+      sendRequest(values).then((isOk) => {
+        isOk && navigate(mainRoutes.landing);
+      });
+    },
   });
 
   const request = (values) => login(values);

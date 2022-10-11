@@ -15,7 +15,13 @@ html {
 
 div#root {
   height: 100%;
+  /* background-color: #c8f9dd; */
 }
+
+/* .nextui-navbar,
+.nextui-navbar-container {
+  background: #fdefd8 !important;
+} */
 
 .nextui-input-helper-text {
   font-size: 12px;

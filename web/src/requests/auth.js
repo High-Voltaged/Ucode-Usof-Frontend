@@ -18,6 +18,10 @@ class AuthRequests {
   static resetPassword({ resetToken, ...data }) {
     return axiosClient.post(`/${PREFIX}/password-reset/${resetToken}`, data);
   }
+
+  static logout() {
+    return axiosClient.post(`/${PREFIX}/logout/`);
+  }
 }
 
 export default AuthRequests;

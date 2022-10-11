@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthRequests from "~/requests/auth";
 import { axiosClient } from "~/utils/axios-client";
-import { getLocalStorageItem, updateLocalStorage } from "~/utils/local-storage";
+import {
+  getLocalStorageItem,
+  removeFromLocalStorage,
+  updateLocalStorage,
+} from "~/utils/local-storage";
 import { decodeToken } from "~/utils/token";
 
 const initialState = {
@@ -13,7 +17,7 @@ const initialState = {
     avatar: "",
   },
   isAuthenticated: false,
-  loading: true,
+  loading: false,
   error: "",
 };
 
@@ -31,7 +35,7 @@ export const login = createAsyncThunk(
 );
 
 export const authenticate = createAsyncThunk(
-  "auth/autheticate",
+  "auth/authenticate",
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const accessToken = getLocalStorageItem("accessToken");
@@ -39,7 +43,7 @@ export const authenticate = createAsyncThunk(
         const user = decodeToken(accessToken);
 
         const { data } = await axiosClient.get(`/users/${user.id}`);
-        dispatch(initUser({ role: user.role, ...data }));
+        dispatch(setUser({ role: user.role, ...data }));
         dispatch(setAuthenticated(true));
       }
     } catch (e) {
@@ -48,11 +52,46 @@ export const authenticate = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await AuthRequests.logout();
+      removeFromLocalStorage("accessToken");
+      dispatch(setUser(initialState.user));
+    } catch (e) {
+      return rejectWithValue(e.response.data.message);
+    }
+  }
+);
+
+const addReducerCases = (builder, thunk, loading = true) => {
+  builder
+    .addCase(thunk.pending, (state, _action) => {
+      if (loading) {
+        state.loading = true;
+      }
+      state.error = "";
+    })
+    .addCase(thunk.fulfilled, (state, _action) => {
+      if (loading) {
+        state.loading = false;
+      }
+      state.error = "";
+    })
+    .addCase(thunk.rejected, (state, action) => {
+      if (loading) {
+        state.loading = false;
+      }
+      state.error = action.payload;
+    });
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    initUser(state, action) {
+    setUser(state, action) {
       const { id, role, email, login, avatar } = action.payload;
       state.user = { id, role, email, login, avatar };
     },
@@ -61,32 +100,13 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(login.pending, (state, _action) => {
-        state.error = "";
-      })
-      .addCase(login.fulfilled, (state, _action) => {
-        state.error = "";
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-      .addCase(authenticate.pending, (state, _action) => {
-        state.loading = true;
-        state.error = "";
-      })
-      .addCase(authenticate.fulfilled, (state, _action) => {
-        state.loading = false;
-        state.error = "";
-      })
-      .addCase(authenticate.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+    addReducerCases(builder, login, false);
+    addReducerCases(builder, authenticate, true);
+    addReducerCases(builder, logout);
   },
 });
 
 const { reducer, actions } = authSlice;
 
-export const { initUser, setAuthenticated } = actions;
+export const { setUser, setAuthenticated } = actions;
 export default reducer;

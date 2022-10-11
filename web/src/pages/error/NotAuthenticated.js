@@ -1,4 +1,3 @@
-import { Container } from "@nextui-org/react";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Layout from "~/containers/layout/Layout";
 

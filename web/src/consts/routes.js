@@ -17,6 +17,8 @@ const errorRoutes = {
   noAuth: "/not-authenticated",
 };
 
-const profileRoutes = {};
+const profileRoutes = {
+  profile: "/profile/",
+};
 
 export { routes, mainRoutes, profileRoutes, errorRoutes };
