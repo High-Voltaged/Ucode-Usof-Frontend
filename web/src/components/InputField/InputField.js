@@ -25,27 +25,18 @@ const InputField = ({
     setFieldValue(name, currentRef.current);
   };
 
+  const CustomInput = isPassword ? Input.Password : Input;
+
   return (
     <Row align="center" justify="center" css={!isLast ? styles.input : ""}>
-      {!isPassword ? (
-        <Input
-          {...props}
-          width={otherProps.width}
-          size={otherProps.size}
-          status={error ? colors.error : "default"}
-          helperColor={colors.error}
-          onChange={handleChange}
-        ></Input>
-      ) : (
-        <Input.Password
-          {...props}
-          width={otherProps.width}
-          size={otherProps.size}
-          status={error ? colors.error : "default"}
-          helperColor={colors.error}
-          onChange={handleChange}
-        ></Input.Password>
-      )}
+      <CustomInput
+        {...props}
+        width={otherProps.width}
+        size={otherProps.size}
+        status={error ? colors.error : "default"}
+        helperColor={colors.error}
+        onChange={handleChange}
+      />
     </Row>
   );
 };

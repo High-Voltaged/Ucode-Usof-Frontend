@@ -8,7 +8,7 @@ import { login } from "~/redux/auth-slice";
 import { loginSchema } from "~/validation/auth";
 import { loginValues } from "~/containers/forms/const";
 import BaseButton from "~/components/Button/Button";
-import useDispatchRequest from "~/hooks/use-dispatch-request";
+import useRequest from "~/hooks/use-request";
 import { SUCCESS_MSGS } from "~/consts/messages";
 import { mainRoutes } from "~/consts/routes";
 import { colors } from "~/theme/config";
@@ -34,10 +34,11 @@ const LoginForm = () => {
   });
 
   const request = (values) => login(values);
-  const { sendRequest, loading } = useDispatchRequest(
+  const { sendRequest, loading } = useRequest(
     request,
     SUCCESS_MSGS.LOGIN_SUCCESS,
-    resetForm
+    resetForm,
+    true
   );
 
   return (

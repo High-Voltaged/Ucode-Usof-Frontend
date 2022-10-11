@@ -29,7 +29,7 @@ export const login = createAsyncThunk(
       updateLocalStorage("accessToken", data.accessToken);
       dispatch(authenticate());
     } catch (e) {
-      return rejectWithValue(e.response.data.message);
+      return rejectWithValue(e);
     }
   }
 );
@@ -47,7 +47,7 @@ export const authenticate = createAsyncThunk(
         dispatch(setAuthenticated(true));
       }
     } catch (e) {
-      return rejectWithValue(e.response.data.message);
+      return rejectWithValue(e);
     }
   }
 );
@@ -60,7 +60,7 @@ export const logout = createAsyncThunk(
       removeFromLocalStorage("accessToken");
       dispatch(setUser(initialState.user));
     } catch (e) {
-      return rejectWithValue(e.response.data.message);
+      return rejectWithValue(e);
     }
   }
 );
