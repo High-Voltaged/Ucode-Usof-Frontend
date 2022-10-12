@@ -8,6 +8,7 @@ import {
   Register,
   NotFound,
 } from "~/pages";
+import ConfirmEmail from "~/pages/auth/ConfirmEmail";
 
 const MainRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const MainRoutes = () => {
       <Route path={mainRoutes.register} element={<Register />} />
       <Route path={mainRoutes.resetPassword} element={<ResetPassword />} />
       <Route path={mainRoutes.forgotPassword} element={<ForgotPassword />} />
+      <Route path={mainRoutes.confirmEmail} element={<ConfirmEmail />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

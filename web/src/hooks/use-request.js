@@ -11,6 +11,7 @@ const useRequest = (
 ) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { setAlert } = useContext(AlertContext);
 
   const reqHandler = useCallback(
@@ -28,6 +29,7 @@ const useRequest = (
           return true;
         })
         .catch((err) => {
+          setError(err.response.data.message);
           setAlert(err.response.data.message, colors.error);
           return false;
         })
@@ -38,7 +40,7 @@ const useRequest = (
     [reqHandler, setAlert, successMessage, resetForm]
   );
 
-  return { sendRequest, loading };
+  return { sendRequest, loading, error };
 };
 
 export default useRequest;

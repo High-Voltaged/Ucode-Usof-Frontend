@@ -8,6 +8,7 @@ const mainRoutes = {
   register: "/register",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+  confirmEmail: "/confirm-email",
   landing: "/",
   posts: "/posts",
   postWithId: "/posts/:id",
@@ -18,7 +19,7 @@ const errorRoutes = {
 };
 
 const profileRoutes = {
-  profile: "/profile/",
+  profile: "/profile",
 };
 
 export { routes, mainRoutes, profileRoutes, errorRoutes };

@@ -1,5 +1,5 @@
 import { Card, Grid, Text, useTheme } from "@nextui-org/react";
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import styles from "./Alert.styles";
 
 const ALERT_TIME = 5000;
@@ -17,17 +17,20 @@ export const AlertProvider = ({ children }) => {
     theme: { colors },
   } = useTheme();
 
-  const setAlert = (text, color) => {
-    setText(text);
-    setColor(colors[`${color}LightActive`].value);
-    setIsVisible(true);
+  const setAlert = useCallback(
+    (text, color) => {
+      setText(text);
+      setColor(colors[`${color}LightActive`].value);
+      setIsVisible(true);
 
-    setTimeout(() => {
-      setText("");
-      setColor("");
-      setIsVisible(false);
-    }, ALERT_TIME);
-  };
+      setTimeout(() => {
+        setText("");
+        setColor("");
+        setIsVisible(false);
+      }, ALERT_TIME);
+    },
+    [colors]
+  );
   const opacityStyles = isVisible ? styles.visible : styles.hidden;
 
   return (

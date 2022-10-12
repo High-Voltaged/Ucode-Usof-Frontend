@@ -19,6 +19,10 @@ class AuthRequests {
     return axiosClient.post(`/${PREFIX}/password-reset/${resetToken}`, data);
   }
 
+  static confirmEmail({ confirmToken }) {
+    return axiosClient.post(`/${PREFIX}/confirm-email/${confirmToken}`);
+  }
+
   static logout() {
     return axiosClient.post(`/${PREFIX}/logout/`);
   }
