@@ -1,16 +1,22 @@
-import { Navigate } from "react-router-dom";
-import { errorRoutes } from "~/consts/routes";
+import { Outlet } from "react-router-dom";
+import Layout from "~/containers/layout/Layout";
+import ErrorTitle from "../ErrorTitle/ErrorTitle";
+import Loader from "~/components/Loader/Loader";
 
 const { useSelector } = require("react-redux");
 
-const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+const PrivateRoute = () => {
+  const { user } = useSelector((state) => state.auth);
 
-  if (isAuthenticated) {
-    return children;
+  if (user.id) {
+    return <Outlet />;
   }
 
-  return <Navigate to={errorRoutes.noAuth} />;
+  return (
+    <Layout>
+      <ErrorTitle text="Please log in to access this page" />
+    </Layout>
+  );
 };
 
 export default PrivateRoute;

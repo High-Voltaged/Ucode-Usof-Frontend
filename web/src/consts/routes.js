@@ -14,12 +14,8 @@ const mainRoutes = {
   postWithId: "/posts/:id",
 };
 
-const errorRoutes = {
-  noAuth: "/not-authenticated",
-};
-
 const profileRoutes = {
   profile: "/profile",
 };
 
-export { routes, mainRoutes, profileRoutes, errorRoutes };
+export { routes, mainRoutes, profileRoutes };

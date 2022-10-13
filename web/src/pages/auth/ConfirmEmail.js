@@ -1,14 +1,14 @@
 import { Card, Link } from "@nextui-org/react";
 import { useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Heading from "~/components/Heading/Heading.js";
-import Loader from "~/components/Loader/Loader.js";
-import { mainRoutes } from "~/consts/routes.js";
-import Layout from "~/containers/layout/Layout.js";
-import useRequest from "~/hooks/use-request.js";
-import AuthRequests from "~/requests/auth.js";
-import { colors } from "~/theme/config.js";
-import styles from "./Auth.styles.js";
+import Heading from "~/components/Heading/Heading";
+import Loader from "~/components/Loader/Loader";
+import { mainRoutes } from "~/consts/routes";
+import Layout from "~/containers/layout/Layout";
+import useRequest from "~/hooks/use-request";
+import AuthRequests from "~/requests/auth";
+import { colors } from "~/theme/config";
+import styles from "./Auth.styles";
 
 const ConfirmEmail = () => {
   const [searchParams] = useSearchParams();

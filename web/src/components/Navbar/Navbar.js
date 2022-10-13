@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 
@@ -11,11 +11,19 @@ import { links } from "~/consts/labels";
 import { AVATAR_PATH } from "~/consts/utils";
 import { colors } from "~/theme/config";
 import { mainRoutes } from "~/consts/routes";
+import { authenticate } from "~/redux/auth-slice";
 
 const AppNavbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [activeLink, setActiveLink] = useState(-1);
+
+  useEffect(() => {
+    if (!user.id) {
+      dispatch(authenticate());
+    }
+  }, [dispatch, user.id]);
 
   const userAvatar = (
     <Avatar
