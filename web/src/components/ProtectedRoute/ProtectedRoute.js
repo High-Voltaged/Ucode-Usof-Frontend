@@ -1,11 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Layout from "~/containers/layout/Layout";
 import ErrorTitle from "../ErrorTitle/ErrorTitle";
-import Loader from "~/components/Loader/Loader";
 
 const { useSelector } = require("react-redux");
 
-const PrivateRoute = () => {
+const ProtectedRoute = () => {
   const { user } = useSelector((state) => state.auth);
 
   if (user.id) {
@@ -19,4 +18,4 @@ const PrivateRoute = () => {
   );
 };
 
-export default PrivateRoute;
+export default ProtectedRoute;
