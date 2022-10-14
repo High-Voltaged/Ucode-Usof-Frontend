@@ -51,23 +51,25 @@ const AppNavbar = () => {
 
   return (
     <Navbar>
-      <Navbar.Brand>
-        <Navbar.Toggle showIn="xs" />
-
-        <Text b color="inherit">
-          Brand
-        </Text>
-      </Navbar.Brand>
+      <Navbar.Content gap={6}>
+        <Navbar.Toggle showIn="sm" />
+        <Navbar.Brand hideIn="xs">
+          <Text b color="inherit">
+            Brand
+          </Text>
+        </Navbar.Brand>
+      </Navbar.Content>
       <Navbar.Content
+        gap={6}
         activeColor={colors.feature}
         enableCursorHighlight
-        hideIn="xs"
+        hideIn="sm"
         variant="highlight"
       >
         {navLinks}
       </Navbar.Content>
-      <Navbar.Content css={styles.navbarContent}>
-        <Navbar.Item css={styles.navbarItem}>
+      <Navbar.Content gap={8} css={styles.navbarContent}>
+        <Navbar.Item>
           <SearchInput />
         </Navbar.Item>
 
@@ -83,11 +85,9 @@ const AppNavbar = () => {
         ) : (
           <>
             <Navbar.Item>{userAvatar}</Navbar.Item>
-            <BaseButton
-              onPress={loginClickHandler}
-              css={styles.button}
-              text="Login"
-            />
+            <Navbar.Item>
+              <BaseButton onPress={loginClickHandler} text="Login" auto />
+            </Navbar.Item>
           </>
         )}
       </Navbar.Content>

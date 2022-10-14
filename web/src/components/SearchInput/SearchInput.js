@@ -10,10 +10,7 @@ const SearchInput = () => {
       isLast
       clearable
       css={{
-        w: "100%",
-        "@xsMax": {
-          mw: "200px",
-        },
+        mw: "200px",
       }}
     ></InputField>
   );
