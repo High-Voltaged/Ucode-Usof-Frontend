@@ -1,8 +1,9 @@
 import { colors } from "~/theme/config";
+import { mainRoutes } from "~/consts/routes";
 
 const links = [
-  { id: "link_1", label: "Posts", href: "#" },
-  { id: "link_2", label: "Categories", href: "#" },
+  { id: "link_1", label: "Posts", href: mainRoutes.posts },
+  { id: "link_2", label: "Categories", href: mainRoutes.categories },
 ];
 
 const dropdownLabels = [

@@ -7,6 +7,7 @@ import {
   Login,
   Register,
   NotFound,
+  Posts,
 } from "~/pages";
 import ConfirmEmail from "~/pages/auth/ConfirmEmail";
 
@@ -19,6 +20,7 @@ const MainRoutes = () => {
       <Route path={mainRoutes.resetPassword} element={<ResetPassword />} />
       <Route path={mainRoutes.forgotPassword} element={<ForgotPassword />} />
       <Route path={mainRoutes.confirmEmail} element={<ConfirmEmail />} />
+      <Route path={mainRoutes.posts} element={<Posts />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

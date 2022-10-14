@@ -12,6 +12,7 @@ const mainRoutes = {
   landing: "/",
   posts: "/posts",
   postWithId: "/posts/:id",
+  categories: "/categories",
 };
 
 const profileRoutes = {

@@ -27,7 +27,7 @@ const useRequest = (
         .then((response) => {
           resetForm && resetForm();
           successMessage && setAlert(successMessage, colors.success);
-          response && setResponseData(response);
+          response && setResponseData(response.data);
         })
         .catch((err) => {
           const errMsg =
