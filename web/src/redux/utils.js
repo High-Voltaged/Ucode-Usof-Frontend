@@ -1,9 +1,5 @@
 const rejectWithError = (reject, error) => {
-  if (error.response && error.response.data.message) {
-    return reject(error.response.data.message);
-  } else {
-    return reject(error.message);
-  }
+  return reject(error.response.data.message);
 };
 
 const addReducerCases = (builder, thunk, loading = true) => {
