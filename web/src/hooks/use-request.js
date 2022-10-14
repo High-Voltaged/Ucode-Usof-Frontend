@@ -11,7 +11,7 @@ const useRequest = (
 ) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [responseData, setResponseData] = useState(null);
   const { setAlert } = useContext(AlertContext);
 
   const reqHandler = useCallback(
@@ -23,15 +23,14 @@ const useRequest = (
     (data) => {
       setLoading(true);
       return reqHandler(data)
-        .then(() => {
+        .then((response) => {
           resetForm && resetForm();
           successMessage && setAlert(successMessage, colors.success);
-          return true;
+          response && setResponseData(response);
         })
         .catch((err) => {
-          setError(err.response.data.message);
-          setAlert(err.response.data.message, colors.error);
-          return false;
+          setAlert(err, colors.error);
+          return err;
         })
         .finally(() => {
           setLoading(false);
@@ -40,7 +39,7 @@ const useRequest = (
     [reqHandler, setAlert, successMessage, resetForm]
   );
 
-  return { sendRequest, loading, error };
+  return { sendRequest, loading, responseData };
 };
 
 export default useRequest;

@@ -27,8 +27,8 @@ const LoginForm = () => {
     initialValues: loginValues,
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      sendRequest(values).then((isOk) => {
-        isOk && navigate(mainRoutes.landing);
+      sendRequest(values).then((error) => {
+        !error && navigate(mainRoutes.landing);
       });
     },
   });
