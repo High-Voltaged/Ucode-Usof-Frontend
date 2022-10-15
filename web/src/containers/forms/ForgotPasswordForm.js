@@ -28,6 +28,7 @@ const ForgotPasswordForm = () => {
   const request = (values) => AuthRequests.forgotPassword(values);
   const { sendRequest, loading } = useRequest(
     request,
+    true,
     SUCCESS_MSGS.FORGOT_PASS_SUCCESS,
     resetForm
   );

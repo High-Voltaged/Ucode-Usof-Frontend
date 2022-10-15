@@ -32,6 +32,7 @@ const ResetPasswordForm = () => {
   const request = (values) => AuthRequests.resetPassword(values);
   const { sendRequest, loading } = useRequest(
     request,
+    true,
     SUCCESS_MSGS.RESET_PASS_SUCCESS,
     resetForm
   );

@@ -4,6 +4,10 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 
 const useDate = (dateStr) => {
+  if (!dateStr) {
+    return {};
+  }
+
   const initialDate = new Date(dateStr);
 
   const timeAgo = new TimeAgo("en-US");

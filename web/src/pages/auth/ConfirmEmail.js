@@ -1,6 +1,7 @@
 import { Card, Link } from "@nextui-org/react";
 import { useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Heading from "~/components/Heading/Heading";
 import Loader from "~/components/Loader/Loader";
 import { mainRoutes } from "~/consts/routes";
@@ -28,27 +29,29 @@ const ConfirmEmail = () => {
     return <Loader isFullScreen />;
   }
 
+  if (error) {
+    return (
+      <Layout>
+        <ErrorTitle text={error} />;
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Card css={styles.card}>
         <Card.Header css={styles.cardBar}>
-          {!error ? (
-            <Heading text="Your email is confirmed!" />
-          ) : (
-            <Heading text="An error occured when handling the request." />
-          )}
+          <Heading text="Your email is confirmed!" />
         </Card.Header>
-        {!error && (
-          <Card.Body>
-            <Link
-              href={mainRoutes.login}
-              color={colors.feature}
-              css={styles.link}
-            >
-              You can now login
-            </Link>
-          </Card.Body>
-        )}
+        <Card.Body>
+          <Link
+            href={mainRoutes.login}
+            color={colors.feature}
+            css={styles.link}
+          >
+            You can now login
+          </Link>
+        </Card.Body>
       </Card>
     </Layout>
   );

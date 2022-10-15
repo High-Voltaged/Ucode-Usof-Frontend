@@ -29,6 +29,7 @@ const RegisterForm = () => {
   const request = (data) => AuthRequests.register(data);
   const { sendRequest, loading } = useRequest(
     request,
+    true,
     SUCCESS_MSGS.REGISTER_SUCCESS,
     resetForm
   );

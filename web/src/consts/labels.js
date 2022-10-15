@@ -1,8 +1,8 @@
 import { colors } from "~/theme/config";
-import { mainRoutes } from "~/consts/routes";
+import { mainRoutes, postNav } from "~/consts/routes";
 
 const links = [
-  { id: "link_1", label: "Posts", href: mainRoutes.posts },
+  { id: "link_1", label: "Posts", href: postNav.posts },
   { id: "link_2", label: "Categories", href: mainRoutes.categories },
 ];
 

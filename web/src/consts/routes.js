@@ -1,6 +1,7 @@
 const routes = {
   main: "/*",
   profile: "/profile/*",
+  posts: "/posts/*",
 };
 
 const mainRoutes = {
@@ -10,8 +11,6 @@ const mainRoutes = {
   resetPassword: "/reset-password",
   confirmEmail: "/confirm-email",
   landing: "/",
-  posts: "/posts",
-  postWithId: "/posts/:id",
   categories: "/categories",
 };
 
@@ -19,4 +18,13 @@ const profileRoutes = {
   profile: "/profile",
 };
 
-export { routes, mainRoutes, profileRoutes };
+const postRoutes = {
+  postWithId: "/:id",
+};
+
+const postNav = {
+  posts: "/posts",
+  post: (id) => `/posts/${id}`,
+};
+
+export { routes, mainRoutes, profileRoutes, postRoutes, postNav };

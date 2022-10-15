@@ -5,6 +5,7 @@ import { colors } from "~/theme/config";
 
 const useRequest = (
   request,
+  useAlert = false,
   successMessage = "",
   resetForm = null,
   isDispatched = false
@@ -26,7 +27,9 @@ const useRequest = (
       return reqHandler(data)
         .then((response) => {
           resetForm && resetForm();
-          successMessage && setAlert(successMessage, colors.success);
+          if (useAlert && successMessage) {
+            setAlert(successMessage, colors.success);
+          }
           response && setResponseData(response.data);
         })
         .catch((err) => {
@@ -34,7 +37,7 @@ const useRequest = (
             err.response && err.response.data.message
               ? err.response.data.message
               : err;
-          setAlert(errMsg, colors.error);
+          useAlert && setAlert(errMsg, colors.error);
           setError(errMsg);
           return errMsg;
         })
@@ -42,7 +45,7 @@ const useRequest = (
           setLoading(false);
         });
     },
-    [reqHandler, setAlert, successMessage, resetForm]
+    [reqHandler, setAlert, successMessage, resetForm, useAlert]
   );
 
   return { sendRequest, loading, error, responseData };

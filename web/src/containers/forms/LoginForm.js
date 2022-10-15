@@ -36,6 +36,7 @@ const LoginForm = () => {
   const request = (values) => login(values);
   const { sendRequest, loading } = useRequest(
     request,
+    true,
     SUCCESS_MSGS.LOGIN_SUCCESS,
     resetForm,
     true
