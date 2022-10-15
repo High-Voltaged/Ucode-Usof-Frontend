@@ -29,6 +29,7 @@ const AppNavbar = () => {
     <Avatar
       as="button"
       bordered
+      squared
       color={colors.feature}
       size="md"
       src={AVATAR_PATH(user.avatar)}
