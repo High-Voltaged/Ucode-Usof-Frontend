@@ -30,7 +30,9 @@ const ForgotPasswordForm = () => {
     request,
     true,
     SUCCESS_MSGS.FORGOT_PASS_SUCCESS,
-    resetForm
+    resetForm,
+    false,
+    false
   );
 
   return (

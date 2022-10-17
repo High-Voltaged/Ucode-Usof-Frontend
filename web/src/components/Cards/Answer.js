@@ -3,25 +3,14 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { AVATAR_PATH } from "~/consts/utils";
 import useDate from "~/hooks/use-date";
 import { colors } from "~/theme/config";
-import CategoryBadges from "~/components/Category/Badges";
-import { post as styles } from "./Card.styles";
+import { answer as styles } from "./Card.styles";
 
-const PostCard = ({
-  post: {
-    title,
-    content,
-    authorLogin,
-    authorAvatar,
-    publishDate,
-    likesCount,
-    categories,
-  },
+const AnswerCard = ({
+  answer: { content, authorLogin, authorAvatar, publishDate, likesCount },
   onPress = null,
   ...props
 }) => {
   const { date } = useDate(publishDate);
-
-  const categoryBadges = <CategoryBadges categories={categories} />;
 
   return (
     <Card css={styles.post} onPress={onPress} {...props}>
@@ -39,12 +28,10 @@ const PostCard = ({
         </Col>
         <Col span={10} css={styles.colRight}>
           <Card.Body css={{ p: 0 }}>
-            <Text h3>{title}</Text>
             <Text color={colors.default}>{content}</Text>
           </Card.Body>
           <Card.Footer css={{ ...styles.container, ...styles.colBottom }}>
-            <Container css={{ ...styles.container, ...styles.badges }}>
-              <Col>{categoryBadges}</Col>
+            <Container css={styles.container}>
               <Col css={{ ...styles.footerCol, ...styles.colBottom }}>
                 <Avatar size="sm" src={AVATAR_PATH(authorAvatar)} />
                 <Text size="xs" css={styles.footerItem}>
@@ -62,4 +49,4 @@ const PostCard = ({
   );
 };
 
-export default PostCard;
+export default AnswerCard;

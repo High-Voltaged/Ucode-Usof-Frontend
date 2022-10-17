@@ -34,7 +34,9 @@ const ResetPasswordForm = () => {
     request,
     true,
     SUCCESS_MSGS.RESET_PASS_SUCCESS,
-    resetForm
+    resetForm,
+    false,
+    false
   );
 
   return (

@@ -31,7 +31,9 @@ const RegisterForm = () => {
     request,
     true,
     SUCCESS_MSGS.REGISTER_SUCCESS,
-    resetForm
+    resetForm,
+    false,
+    false
   );
 
   return (

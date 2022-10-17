@@ -1,4 +1,4 @@
-const styles = {
+const post = {
   post: { p: "16px" },
   container: {
     d: "flex",
@@ -6,8 +6,8 @@ const styles = {
     p: 0,
   },
   postLikes: {
-    paddingRight: "14px",
-    paddingLeft: "14px",
+    // paddingRight: "14px",
+    // paddingLeft: "14px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -29,4 +29,8 @@ const styles = {
   colBottom: { mt: "10px" },
 };
 
-export default styles;
+const answer = {
+  ...post,
+};
+
+export { post, answer };

@@ -50,7 +50,12 @@ const PostsContainer = () => {
   const postCards = posts.map((post) => {
     return (
       <Grid xs={12} sm={6} lg={4} key={post.id}>
-        <PostCard post={post} onPress={() => cardClickHandler(post.id)} />
+        <PostCard
+          post={post}
+          isPressable
+          isHoverable
+          onPress={() => cardClickHandler(post.id)}
+        />
       </Grid>
     );
   });

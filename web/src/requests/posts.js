@@ -3,8 +3,23 @@ import { axiosClient } from "~/utils/axios-client";
 const PREFIX = "posts";
 
 class PostsRequests {
-  static getAll({ page, sort } = {}) {
-    return axiosClient.get(`/${PREFIX}`, { params: { page, sort } });
+  static async getAll({ page, sort } = {}) {
+    const response = await axiosClient.get(`/${PREFIX}`, {
+      params: { page, sort },
+    });
+    if (response.data.posts) {
+      const posts = response.data.posts;
+
+      await Promise.all(
+        posts.map(async (post) => {
+          const { data: categories } = await PostsRequests.getPostCategories(
+            post.id
+          );
+          post.categories = categories;
+        })
+      );
+    }
+    return response;
   }
 
   static async getPost(id) {

@@ -1,28 +1,24 @@
 import { Grid } from "@nextui-org/react";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import PostCard from "~/components/Cards/Post";
+import AnswerCard from "~/components/Cards/Answer";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
 import useRequest from "~/hooks/use-request";
-import PostsRequests from "~/requests/posts";
-import AnswersContainer from "../answers/AnswersContainer";
+import AnswersRequests from "~/requests/answers";
 
-const PostsContainer = () => {
-  const { id } = useParams();
-
-  const request = useCallback(() => PostsRequests.getPost(id), [id]);
+const AnswersContainer = ({ postId }) => {
+  const request = useCallback(() => AnswersRequests.getAll(postId), [postId]);
   const { sendRequest, error, loading, responseData } = useRequest(request);
 
-  const [post, setPost] = useState({});
+  const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
-    sendRequest(id);
-  }, [sendRequest, id]);
+    sendRequest();
+  }, [sendRequest]);
 
   useEffect(() => {
     if (responseData && !error) {
-      setPost(responseData);
+      setAnswers(responseData);
     }
   }, [responseData, error]);
 
@@ -34,14 +30,17 @@ const PostsContainer = () => {
     return <ErrorTitle text={error} />;
   }
 
+  const answerCards = answers.map((a) => (
+    <Grid xs={12} sm={6} lg={4} key={a.id}>
+      <AnswerCard answer={a} />
+    </Grid>
+  ));
+
   return (
     <Grid.Container alignContent="flex-start" css={{ h: "100%" }}>
-      <Grid xs={12} sm={6} lg={4}>
-        <PostCard post={post} />
-      </Grid>
-      <AnswersContainer postId={id} />
+      {answerCards}
     </Grid.Container>
   );
 };
 
-export default PostsContainer;
+export default AnswersContainer;
