@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AlertContext } from "~/context/Alert";
 import { colors } from "~/theme/config";
@@ -49,7 +49,13 @@ const useRequest = (
     [reqHandler, setAlert, successMessage, resetForm, useAlert]
   );
 
-  return { sendRequest, loading, error, responseData };
+  useEffect(() => {
+    if (isRenderFetch) {
+      sendRequest();
+    }
+  }, [sendRequest, isRenderFetch]);
+
+  return { sendRequest, error, loading, responseData };
 };
 
 export default useRequest;

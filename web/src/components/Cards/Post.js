@@ -24,10 +24,10 @@ const PostCard = ({
   const categoryBadges = <CategoryBadges categories={categories} />;
 
   return (
-    <Card css={styles.post} onPress={onPress} {...props}>
+    <Card css={styles.card} onPress={onPress} {...props}>
       <Container css={styles.container}>
         <Col span={1}>
-          <div style={styles.postLikes}>
+          <div style={styles.likes}>
             <span>
               <FaChevronUp size={20} />
             </span>
@@ -45,7 +45,7 @@ const PostCard = ({
           <Card.Footer css={{ ...styles.container, ...styles.colBottom }}>
             <Container css={{ ...styles.container, ...styles.badges }}>
               <Col>{categoryBadges}</Col>
-              <Col css={{ ...styles.footerCol, ...styles.colBottom }}>
+              <Col css={{ ...styles.footer, ...styles.colBottom }}>
                 <Avatar size="sm" src={AVATAR_PATH(authorAvatar)} />
                 <Text size="xs" css={styles.footerItem}>
                   {authorLogin}

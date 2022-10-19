@@ -1,13 +1,25 @@
-const post = {
-  post: { p: "16px" },
+const base = {
+  card: { padding: "16px" },
   container: {
-    d: "flex",
-    ai: "flex-start",
-    p: 0,
+    display: "flex",
+    padding: 0,
   },
-  postLikes: {
-    // paddingRight: "14px",
-    // paddingLeft: "14px",
+  footer: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  footerItem: { marginLeft: "6px" },
+};
+
+const post = {
+  ...base,
+  card: { p: "16px" },
+  container: {
+    ...base.container,
+    alignItems: "flex-start",
+  },
+  likes: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -16,12 +28,10 @@ const post = {
     lh: "$lg",
     fontWeight: "$semibold",
   },
-  footerCol: {
-    d: "flex",
-    ai: "center",
-    jc: "flex-end",
+  footer: {
+    ...base.footer,
+    justifyContent: "flex-end",
   },
-  footerItem: { ml: "6px" },
   badges: {
     fd: "column",
   },
@@ -33,4 +43,17 @@ const answer = {
   ...post,
 };
 
-export { post, answer };
+const comment = {
+  ...base,
+  container: {
+    ...base.container,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  footer: {
+    ...base.footer,
+    marginLeft: "16px",
+  },
+};
+
+export { post, answer, comment };

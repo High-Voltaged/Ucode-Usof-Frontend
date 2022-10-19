@@ -35,11 +35,20 @@ const PostsContainer = () => {
   }
 
   return (
-    <Grid.Container alignContent="flex-start" css={{ h: "100%" }}>
-      <Grid xs={12} sm={6} lg={4}>
+    <Grid.Container
+      alignContent="flex-start"
+      justify="center"
+      xs={12}
+      md={8}
+      xl={6}
+      css={{ h: "100%" }}
+    >
+      <Grid xs={12} sm={10}>
         <PostCard post={post} />
       </Grid>
-      <AnswersContainer postId={id} />
+      <Grid xs={12} sm={10} css={{ mt: "120px" }}>
+        <AnswersContainer postId={id} />
+      </Grid>
     </Grid.Container>
   );
 };

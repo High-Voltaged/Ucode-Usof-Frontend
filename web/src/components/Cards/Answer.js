@@ -7,16 +7,15 @@ import { answer as styles } from "./Card.styles";
 
 const AnswerCard = ({
   answer: { content, authorLogin, authorAvatar, publishDate, likesCount },
-  onPress = null,
   ...props
 }) => {
   const { date } = useDate(publishDate);
 
   return (
-    <Card css={styles.post} onPress={onPress} {...props}>
+    <Card css={styles.card} {...props}>
       <Container css={styles.container}>
         <Col span={1}>
-          <div style={styles.postLikes}>
+          <div style={styles.likes}>
             <span>
               <FaChevronUp size={20} />
             </span>
@@ -32,7 +31,7 @@ const AnswerCard = ({
           </Card.Body>
           <Card.Footer css={{ ...styles.container, ...styles.colBottom }}>
             <Container css={styles.container}>
-              <Col css={{ ...styles.footerCol, ...styles.colBottom }}>
+              <Col css={{ ...styles.footer, ...styles.colBottom }}>
                 <Avatar size="sm" src={AVATAR_PATH(authorAvatar)} />
                 <Text size="xs" css={styles.footerItem}>
                   {authorLogin}

@@ -22,6 +22,10 @@ class AnswersRequests {
     return response;
   }
 
+  static getAnswerComments(answerId) {
+    return axiosClient.get(`${ANSWER_PREFIX(answerId)}/comments`);
+  }
+
   static getAnswerLikes(id) {
     return axiosClient.get(`/${ANSWER_PREFIX(id)}/like`);
   }

@@ -5,6 +5,7 @@ import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
 import useRequest from "~/hooks/use-request";
 import AnswersRequests from "~/requests/answers";
+import CommentsContainer from "../comments/CommentsContainer";
 
 const AnswersContainer = ({ postId }) => {
   const request = useCallback(() => AnswersRequests.getAll(postId), [postId]);
@@ -31,15 +32,18 @@ const AnswersContainer = ({ postId }) => {
   }
 
   const answerCards = answers.map((a) => (
-    <Grid xs={12} sm={6} lg={4} key={a.id}>
-      <AnswerCard answer={a} />
-    </Grid>
+    <Grid.Container xs={12} key={a.id}>
+      <Grid xs={12}>
+        <AnswerCard answer={a} />
+      </Grid>
+      <Grid xs={12} css={{ mt: "20px", px: "30px" }}>
+        <CommentsContainer answerId={a.id} />
+      </Grid>
+    </Grid.Container>
   ));
 
   return (
-    <Grid.Container alignContent="flex-start" css={{ h: "100%" }}>
-      {answerCards}
-    </Grid.Container>
+    <Grid.Container alignContent="flex-start">{answerCards}</Grid.Container>
   );
 };
 
