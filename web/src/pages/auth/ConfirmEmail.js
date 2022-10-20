@@ -1,13 +1,12 @@
 import { Card, Link } from "@nextui-org/react";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Heading from "~/components/Heading/Heading";
 import Loader from "~/components/Loader/Loader";
 import { mainRoutes } from "~/consts/routes";
 import Layout from "~/containers/layout/Layout";
-import useRequest from "~/hooks/use-request";
-import AuthRequests from "~/requests/auth";
+import { useConfirmEmailMutation } from "~/redux/api/auth-api";
 import { colors } from "~/theme/config";
 import styles from "./Auth.styles";
 
@@ -15,24 +14,21 @@ const ConfirmEmail = () => {
   const [searchParams] = useSearchParams();
   const confirmToken = searchParams.get("confirmToken");
 
-  const request = useCallback(
-    () => AuthRequests.confirmEmail({ confirmToken }),
-    [confirmToken]
-  );
-  const { sendRequest, loading, error } = useRequest(request);
+  const [confirmEmail, { isLoading, isSuccess, error }] =
+    useConfirmEmailMutation();
 
   useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
+    confirmEmail(confirmToken);
+  }, [confirmEmail, confirmToken]);
 
-  if (loading) {
+  if (isLoading || (!isSuccess && !error)) {
     return <Loader isFullScreen />;
   }
 
   if (error) {
     return (
       <Layout>
-        <ErrorTitle text={error} />;
+        <ErrorTitle text={error.data.message} />
       </Layout>
     );
   }

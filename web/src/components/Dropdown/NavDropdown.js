@@ -4,12 +4,17 @@ import styles from "./NavDropdown.styles";
 import { colors } from "~/theme/config";
 import { useNavigate } from "react-router-dom";
 import { mainRoutes, profileRoutes } from "~/consts/routes";
-import { logout } from "~/redux/auth-slice";
-import { useDispatch } from "react-redux";
+import { useLogoutMutation } from "~/redux/api/auth-api";
+import Loader from "../Loader/Loader";
 
 const NavDropdown = ({ children }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  if (isLoading) {
+    return <Loader isFullScreen />;
+  }
 
   const dropdownItems = dropdownLabels.map((item, idx) => (
     <Dropdown.Item
@@ -28,7 +33,7 @@ const NavDropdown = ({ children }) => {
         navigate(profileRoutes.profile);
         break;
       case dropdownLabels[1].id:
-        dispatch(logout());
+        logout();
         navigate(mainRoutes.landing);
         break;
       default:

@@ -4,17 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { FaAt, FaLock, FaUser } from "react-icons/fa";
 
 import InputField from "~/components/InputField/InputField";
-import { login } from "~/redux/auth-slice";
 import { loginSchema } from "~/validation/auth";
 import { loginValues } from "~/containers/forms/const";
 import BaseButton from "~/components/Button/Button";
-import useRequest from "~/hooks/use-request";
 import { SUCCESS_MSGS } from "~/consts/messages";
 import { mainRoutes } from "~/consts/routes";
 import { colors } from "~/theme/config";
+import { useLoginMutation } from "~/redux/api/auth-api";
+import useAlert from "~/hooks/use-alert";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const { setAlert } = useAlert();
+
   const {
     values,
     errors,
@@ -27,21 +30,16 @@ const LoginForm = () => {
     initialValues: loginValues,
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      sendRequest(values).then((error) => {
-        !error && navigate(mainRoutes.landing);
-      });
+      login(values)
+        .unwrap()
+        .then(() => {
+          resetForm();
+          setAlert(SUCCESS_MSGS.LOGIN_SUCCESS, colors.success);
+          navigate(mainRoutes.landing);
+        })
+        .catch(({ data }) => setAlert(data.message, colors.error));
     },
   });
-
-  const request = (values) => login(values);
-  const { sendRequest, loading } = useRequest(
-    request,
-    true,
-    SUCCESS_MSGS.LOGIN_SUCCESS,
-    resetForm,
-    true,
-    false
-  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -85,7 +83,7 @@ const LoginForm = () => {
         </Link>
       </Row>
       <Row justify="center" css={{ mt: "10px" }}>
-        <BaseButton block loading={loading} text="Login" />
+        <BaseButton block loading={isLoading} text="Login" />
       </Row>
     </form>
   );

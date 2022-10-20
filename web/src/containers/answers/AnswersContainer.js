@@ -1,34 +1,26 @@
 import { Grid } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AnswerCard from "~/components/Cards/Answer";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
-import useRequest from "~/hooks/use-request";
-import AnswersRequests from "~/requests/answers";
+import { useGetPostAnswersQuery } from "~/redux/api/posts-api";
 import CommentsContainer from "../comments/CommentsContainer";
 
 const AnswersContainer = ({ postId }) => {
-  const request = useCallback(() => AnswersRequests.getAll(postId), [postId]);
-  const { sendRequest, error, loading, responseData } = useRequest(request);
+  const { data, isFetching, error } = useGetPostAnswersQuery(postId);
 
   const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
+    data && setAnswers(data);
+  }, [data]);
 
-  useEffect(() => {
-    if (responseData && !error) {
-      setAnswers(responseData);
-    }
-  }, [responseData, error]);
-
-  if (loading) {
+  if (isFetching) {
     return <Loader isFullScreen />;
   }
 
   if (error) {
-    return <ErrorTitle text={error} />;
+    return <ErrorTitle text={error.data.message} />;
   }
 
   const answerCards = answers.map((a) => (

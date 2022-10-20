@@ -1,15 +1,25 @@
 import { Avatar, Card, Col, Container, Text } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { AVATAR_PATH } from "~/consts/utils";
 import useDate from "~/hooks/use-date";
+import { useGetAnswerLikesQuery } from "~/redux/api/posts-api";
 import { colors } from "~/theme/config";
 import { answer as styles } from "./Card.styles";
 
 const AnswerCard = ({
-  answer: { content, authorLogin, authorAvatar, publishDate, likesCount },
+  answer: { id, content, authorLogin, authorAvatar, publishDate },
   ...props
 }) => {
   const { date } = useDate(publishDate);
+
+  const { data: likesData } = useGetAnswerLikesQuery(id);
+
+  const [likes, setLikes] = useState([]);
+
+  useEffect(() => {
+    likesData && setLikes(likesData);
+  }, [likesData]);
 
   return (
     <Card css={styles.card} {...props}>
@@ -19,7 +29,7 @@ const AnswerCard = ({
             <span>
               <FaChevronUp size={20} />
             </span>
-            <Text css={styles.likesCount}>{likesCount}</Text>
+            <Text css={styles.likesCount}>{likes.length}</Text>
             <span>
               <FaChevronDown size={20} />
             </span>

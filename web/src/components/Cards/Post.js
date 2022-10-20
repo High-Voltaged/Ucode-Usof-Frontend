@@ -5,23 +5,31 @@ import useDate from "~/hooks/use-date";
 import { colors } from "~/theme/config";
 import CategoryBadges from "~/components/Category/Badges";
 import { post as styles } from "./Card.styles";
+import {
+  useGetPostCategoriesQuery,
+  useGetPostLikesQuery,
+} from "~/redux/api/posts-api";
+import { useEffect, useState } from "react";
 
 const PostCard = ({
-  post: {
-    title,
-    content,
-    authorLogin,
-    authorAvatar,
-    publishDate,
-    likesCount,
-    categories,
-  },
+  post: { id, title, content, authorLogin, authorAvatar, publishDate },
   onPress = null,
   ...props
 }) => {
   const { date } = useDate(publishDate);
 
+  const { data: categoriesData } = useGetPostCategoriesQuery(id);
+  const { data: likesData } = useGetPostLikesQuery(id);
+
+  const [categories, setCategories] = useState([]);
+  const [likes, setLikes] = useState([]);
+
   const categoryBadges = <CategoryBadges categories={categories} />;
+
+  useEffect(() => {
+    categoriesData && setCategories(categoriesData);
+    likesData && setLikes(likesData);
+  }, [categoriesData, likesData]);
 
   return (
     <Card css={styles.card} onPress={onPress} {...props}>
@@ -31,7 +39,7 @@ const PostCard = ({
             <span>
               <FaChevronUp size={20} />
             </span>
-            <Text css={styles.likesCount}>{likesCount}</Text>
+            <Text css={styles.likesCount}>{likes.length}</Text>
             <span>
               <FaChevronDown size={20} />
             </span>

@@ -5,13 +5,17 @@ import { FaAt, FaLock, FaUser } from "react-icons/fa";
 import InputField from "~/components/InputField/InputField";
 import { registerSchema } from "~/validation/auth";
 import BaseButton from "~/components/Button/Button";
-import AuthRequests from "~/requests/auth";
 import { registerValues } from "~/containers/forms/const";
 
-import useRequest from "~/hooks/use-request";
 import { SUCCESS_MSGS } from "~/consts/messages";
+import { useRegisterMutation } from "~/redux/api/auth-api";
+import { colors } from "~/theme/config";
+import useAlert from "~/hooks/use-alert";
 
 const RegisterForm = () => {
+  const [register, { isLoading }] = useRegisterMutation();
+  const { setAlert } = useAlert();
+
   const {
     values,
     errors,
@@ -23,18 +27,16 @@ const RegisterForm = () => {
   } = useFormik({
     initialValues: registerValues,
     validationSchema: registerSchema,
-    onSubmit: (values) => sendRequest(values),
+    onSubmit: (values) => {
+      register(values)
+        .unwrap()
+        .then(() => {
+          resetForm();
+          setAlert(SUCCESS_MSGS.REGISTER_SUCCESS, colors.success);
+        })
+        .catch(({ data }) => setAlert(data.message, colors.error));
+    },
   });
-
-  const request = (data) => AuthRequests.register(data);
-  const { sendRequest, loading } = useRequest(
-    request,
-    true,
-    SUCCESS_MSGS.REGISTER_SUCCESS,
-    resetForm,
-    false,
-    false
-  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -96,7 +98,7 @@ const RegisterForm = () => {
         helperText={touched.passwordConfirm && errors.passwordConfirm}
       />
       <Row justify="center">
-        <BaseButton block loading={loading} text="Submit" />
+        <BaseButton block loading={isLoading} text="Submit" />
       </Row>
     </form>
   );

@@ -7,10 +7,14 @@ import { forgotPassSchema } from "~/validation/auth";
 import { forgotPasswordValues } from "~/containers/forms/const";
 import BaseButton from "~/components/Button/Button";
 import { SUCCESS_MSGS } from "~/consts/messages";
-import AuthRequests from "~/requests/auth";
-import useRequest from "~/hooks/use-request";
+import { useForgotPasswordMutation } from "~/redux/api/auth-api";
+import useAlert from "~/hooks/use-alert";
+import { colors } from "~/theme/config";
 
 const ForgotPasswordForm = () => {
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const { setAlert } = useAlert();
+
   const {
     values,
     errors,
@@ -22,18 +26,16 @@ const ForgotPasswordForm = () => {
   } = useFormik({
     initialValues: forgotPasswordValues,
     validationSchema: forgotPassSchema,
-    onSubmit: (values) => sendRequest(values),
+    onSubmit: (values) => {
+      forgotPassword(values)
+        .unwrap()
+        .then(() => {
+          resetForm();
+          setAlert(SUCCESS_MSGS.FORGOT_PASS_SUCCESS, colors.success);
+        })
+        .catch(({ data }) => setAlert(data.message, colors.error));
+    },
   });
-
-  const request = (values) => AuthRequests.forgotPassword(values);
-  const { sendRequest, loading } = useRequest(
-    request,
-    true,
-    SUCCESS_MSGS.FORGOT_PASS_SUCCESS,
-    resetForm,
-    false,
-    false
-  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -49,7 +51,7 @@ const ForgotPasswordForm = () => {
         helperText={touched.email && errors.email}
       />
       <Row justify="center">
-        <BaseButton block loading={loading} text="Submit" />
+        <BaseButton block loading={isLoading} text="Submit" />
       </Row>
     </form>
   );

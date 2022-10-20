@@ -1,46 +1,36 @@
 import { Grid, Pagination } from "@nextui-org/react";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostCard from "~/components/Cards/Post";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
 import { postNav } from "~/consts/routes";
 import usePagination from "~/hooks/use-pagination";
-import useRequest from "~/hooks/use-request";
-import PostsRequests from "~/requests/posts";
 import { colors } from "~/theme/config";
+import { useGetPostsQuery } from "~/redux/api/posts-api";
+import { useEffect, useState } from "react";
 
 const PostsContainer = () => {
   const navigate = useNavigate();
-  const { sendRequest, error, loading, responseData } = useRequest(
-    PostsRequests.getAll
-  );
 
+  const { pageData, setPageData, controlHandler } = usePagination();
   const [posts, setPosts] = useState([]);
-  const { pageData, setPageData, controlHandler } = usePagination(sendRequest);
+
+  const { data, isFetching, error } = useGetPostsQuery(pageData.page);
 
   useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
-
-  useEffect(() => {
-    if (responseData && !error) {
-      const { currentPage, itemsCount, pagesCount } = responseData;
-      setPosts(responseData.posts);
-      setPageData({
-        current: currentPage,
-        pages: pagesCount,
-        items: itemsCount,
-      });
+    if (data) {
+      const { currentPage, posts, pagesCount } = data;
+      setPosts(posts);
+      setPageData({ page: currentPage, pages: pagesCount });
     }
-  }, [responseData, error, setPageData]);
+  }, [data, setPageData]);
 
-  if (loading) {
+  if (isFetching) {
     return <Loader isFullScreen />;
   }
 
   if (error) {
-    return <ErrorTitle text={error} />;
+    return <ErrorTitle text={error.data.message} />;
   }
 
   const cardClickHandler = (id) => {
@@ -71,8 +61,8 @@ const PostsContainer = () => {
             size="lg"
             color={colors.feature}
             shadow
-            initialPage={pageData.current}
-            total={pageData.pages}
+            initialPage={data.currentPage || pageData.current}
+            total={data.pagesCount || pageData.pages}
             onChange={controlHandler}
           />
         </Grid>
