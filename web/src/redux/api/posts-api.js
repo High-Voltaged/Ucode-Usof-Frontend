@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-import { api as authApi } from "./auth-api";
-export { authApi };
+import { cacheEntityRating, cacheNewLike } from "~/utils/likes";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -24,9 +22,10 @@ export const api = createApi({
         url: `/posts`,
         params: { page, sort, ...filter },
       }),
+      providesTags: ["Posts"],
     }),
     getPost: build.query({
-      query: (id) => `/posts/${id}`,
+      query: (postId) => `/posts/${postId}`,
     }),
     getPostCategories: build.query({
       query: (postId) => `/posts/${postId}/categories`,
@@ -34,11 +33,32 @@ export const api = createApi({
     getPostLikes: build.query({
       query: (postId) => `/posts/${postId}/like`,
     }),
+    addPostLike: build.mutation({
+      query: ({ postId, type }) => ({
+        url: `/posts/${postId}/like`,
+        method: "post",
+        body: { type },
+      }),
+      async onQueryStarted({ postId, ...patch }, { dispatch, queryFulfilled }) {
+        const patchResult1 = dispatch(
+          api.util.updateQueryData("getPostLikes", postId, (draft) =>
+            cacheNewLike(draft, patch)
+          )
+        );
+        const cachedType = patchResult1.inversePatches[0].value.type;
+
+        const patchResult2 = dispatch(
+          api.util.updateQueryData("getPost", postId, (draft) => {
+            cacheEntityRating(draft, { ...patch, cachedType }, postId);
+          })
+        );
+        queryFulfilled.catch(patchResult1.undo);
+        queryFulfilled.catch(patchResult2.undo);
+      },
+      invalidatesTags: ["Posts"],
+    }),
     getPostAnswers: build.query({
       query: (id) => `/posts/${id}/answers`,
-    }),
-    getAnswerLikes: build.query({
-      query: (answerId) => `/answers/${answerId}/like`,
     }),
     getComments: build.query({
       query: (id) => `/answers/${id}/comments`,
@@ -53,6 +73,6 @@ export const {
   useGetPostAnswersQuery,
   useGetPostCategoriesQuery,
   useGetPostLikesQuery,
-  useGetAnswerLikesQuery,
   useGetCommentsQuery,
+  useAddPostLikeMutation,
 } = api;

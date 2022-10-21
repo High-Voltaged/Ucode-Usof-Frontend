@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Container, Text } from "@nextui-org/react";
+import { Avatar, Button, Card, Col, Container, Text } from "@nextui-org/react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { AVATAR_PATH } from "~/consts/utils";
 import useDate from "~/hooks/use-date";
@@ -6,43 +6,61 @@ import { colors } from "~/theme/config";
 import CategoryBadges from "~/components/Category/Badges";
 import { post as styles } from "./Card.styles";
 import {
+  useAddPostLikeMutation,
   useGetPostCategoriesQuery,
   useGetPostLikesQuery,
 } from "~/redux/api/posts-api";
 import { useEffect, useState } from "react";
+import useAuthorLike from "~/hooks/use-author-like";
+import { LIKES_ENUM } from "~/consts/validation";
 
 const PostCard = ({
-  post: { id, title, content, authorLogin, authorAvatar, publishDate },
+  post: { id, title, content, authorLogin, authorAvatar, publishDate, rating },
   onPress = null,
   ...props
 }) => {
   const { date } = useDate(publishDate);
+  const { authorLike, author } = useAuthorLike(id, useGetPostLikesQuery);
 
   const { data: categoriesData } = useGetPostCategoriesQuery(id);
-  const { data: likesData } = useGetPostLikesQuery(id);
+  const [addLike] = useAddPostLikeMutation();
+
+  const addLikeHandler = () =>
+    addLike({ postId: id, type: LIKES_ENUM[0], author });
+  const addDislikeHandler = () =>
+    addLike({ postId: id, type: LIKES_ENUM[1], author });
 
   const [categories, setCategories] = useState([]);
-  const [likes, setLikes] = useState([]);
-
   const categoryBadges = <CategoryBadges categories={categories} />;
 
   useEffect(() => {
     categoriesData && setCategories(categoriesData);
-    likesData && setLikes(likesData);
-  }, [categoriesData, likesData]);
+  }, [categoriesData]);
 
   return (
     <Card css={styles.card} onPress={onPress} {...props}>
       <Container css={styles.container}>
         <Col span={1}>
           <div style={styles.likes}>
-            <span>
-              <FaChevronUp size={20} />
-            </span>
-            <Text css={styles.likesCount}>{likes.length}</Text>
-            <span>
-              <FaChevronDown size={20} />
-            </span>
+            <Button
+              light={authorLike !== LIKES_ENUM[0]}
+              flat={authorLike === LIKES_ENUM[0]}
+              auto
+              disabled={onPress !== null}
+              css={{ minWidth: "auto" }}
+              icon={<FaChevronUp size={20} />}
+              onPress={addLikeHandler}
+            />
+            <Text css={styles.likesCount}>{rating}</Text>
+            <Button
+              light={authorLike !== LIKES_ENUM[1]}
+              flat={authorLike === LIKES_ENUM[1]}
+              auto
+              disabled={onPress !== null}
+              css={{ minWidth: "auto" }}
+              icon={<FaChevronDown size={20} />}
+              onPress={addDislikeHandler}
+            />
           </div>
         </Col>
         <Col span={10} css={styles.colRight}>

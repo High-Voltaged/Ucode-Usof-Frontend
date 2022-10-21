@@ -7,10 +7,10 @@ import Loader from "~/components/Loader/Loader";
 import { useGetPostQuery } from "~/redux/api/posts-api";
 import AnswersContainer from "../answers/AnswersContainer";
 
-const PostsContainer = () => {
+const PostContainer = () => {
   const { id } = useParams();
 
-  const { data, isFetching, error } = useGetPostQuery(id);
+  const { data, isFetching, error } = useGetPostQuery(Number(id));
   const [post, setPost] = useState({});
 
   useEffect(() => {
@@ -38,10 +38,10 @@ const PostsContainer = () => {
         <PostCard post={post} />
       </Grid>
       <Grid xs={12} sm={10} css={{ mt: "120px" }}>
-        <AnswersContainer postId={id} />
+        <AnswersContainer postId={Number(id)} />
       </Grid>
     </Grid.Container>
   );
 };
 
-export default PostsContainer;
+export default PostContainer;

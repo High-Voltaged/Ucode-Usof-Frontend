@@ -8,7 +8,7 @@ const styles = { ml: "10px" };
 const FilterMenu = ({ setFilter }) => {
   const { values, errors, touched, handleSubmit, handleBlur, setFieldValue } =
     useFormik({
-      initialValues: { category: "", dateStart: null, dateEnd: null },
+      initialValues: { category: "", dateStart: "", dateEnd: "" },
       onSubmit: async (values) => {
         const data = Object.fromEntries(
           Object.entries(values).filter(([_, v]) => v)
