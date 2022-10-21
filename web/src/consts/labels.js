@@ -11,4 +11,9 @@ const dropdownLabels = [
   { id: "dropdown_label_2", label: "Log out", color: colors.error },
 ];
 
-export { links, dropdownLabels };
+const sortLabels = [
+  { label: "Likes Count", sortBy: "likes" },
+  { label: "Publish Date", sortBy: "date" },
+];
+
+export { links, dropdownLabels, sortLabels };

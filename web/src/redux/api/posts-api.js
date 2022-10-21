@@ -18,7 +18,12 @@ export const api = createApi({
   tagTypes: ["Posts"],
   endpoints: (build) => ({
     getPosts: build.query({
-      query: (page = 1) => `/posts?page=${page}`,
+      query: (
+        { page, sort, filter } = { page: 1, sort: "likes", filter: {} }
+      ) => ({
+        url: `/posts`,
+        params: { page, sort, ...filter },
+      }),
     }),
     getPost: build.query({
       query: (id) => `/posts/${id}`,
@@ -42,6 +47,7 @@ export const api = createApi({
 });
 
 export const {
+  useLazyGetPostsQuery,
   useGetPostsQuery,
   useGetPostQuery,
   useGetPostAnswersQuery,

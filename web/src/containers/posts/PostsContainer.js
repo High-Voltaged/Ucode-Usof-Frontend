@@ -1,4 +1,5 @@
 import { Grid, Pagination } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostCard from "~/components/Cards/Post";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
@@ -7,15 +8,22 @@ import { postNav } from "~/consts/routes";
 import usePagination from "~/hooks/use-pagination";
 import { colors } from "~/theme/config";
 import { useGetPostsQuery } from "~/redux/api/posts-api";
-import { useEffect, useState } from "react";
+import PostMenu from "~/containers/post-menu/PostMenu";
 
 const PostsContainer = () => {
   const navigate = useNavigate();
 
+  const [sort, setSort] = useState("likes");
+  const [filter, setFilter] = useState({});
   const { pageData, setPageData, controlHandler } = usePagination();
+
   const [posts, setPosts] = useState([]);
 
-  const { data, isFetching, error } = useGetPostsQuery(pageData.page);
+  const { data, isFetching, error } = useGetPostsQuery({
+    page: pageData.page,
+    sort,
+    filter,
+  });
 
   useEffect(() => {
     if (data) {
@@ -24,10 +32,6 @@ const PostsContainer = () => {
       setPageData({ page: currentPage, pages: pagesCount });
     }
   }, [data, setPageData]);
-
-  if (isFetching) {
-    return <Loader isFullScreen />;
-  }
 
   if (error) {
     return <ErrorTitle text={error.data.message} />;
@@ -50,23 +54,43 @@ const PostsContainer = () => {
     );
   });
 
+  const postsContent = isFetching ? (
+    <Loader isFullScreen />
+  ) : !postCards.length ? (
+    <ErrorTitle text="No posts were found" />
+  ) : (
+    <Grid.Container
+      gap={2}
+      alignContent="flex-start"
+      justify="center"
+      css={{ mt: "15px" }}
+    >
+      {postCards}
+    </Grid.Container>
+  );
+
   return (
-    <Grid.Container alignContent="flex-start" css={{ h: "100%" }}>
-      <Grid.Container gap={2} alignContent="flex-start" justify="center">
-        {!postCards.length ? <ErrorTitle text="No posts" /> : postCards}
-      </Grid.Container>
-      <Grid.Container alignItems="center" justify="center" gap={6}>
-        <Grid>
-          <Pagination
-            size="lg"
-            color={colors.feature}
-            shadow
-            initialPage={data.currentPage || pageData.current}
-            total={data.pagesCount || pageData.pages}
-            onChange={controlHandler}
-          />
-        </Grid>
-      </Grid.Container>
+    <Grid.Container
+      alignContent="flex-start"
+      justify="center"
+      css={{ h: "100%" }}
+    >
+      <PostMenu setSort={setSort} setFilter={setFilter} />
+      {postsContent}
+      {posts.length > 0 && (
+        <Grid.Container alignItems="center" justify="center" gap={6}>
+          <Grid>
+            <Pagination
+              size="lg"
+              color={colors.feature}
+              shadow
+              initialPage={data.currentPage || pageData.current}
+              total={data.pagesCount || pageData.pages}
+              onChange={controlHandler}
+            />
+          </Grid>
+        </Grid.Container>
+      )}
     </Grid.Container>
   );
 };
