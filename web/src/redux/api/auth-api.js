@@ -11,6 +11,7 @@ export const api = createApi({
       }
       return headers;
     },
+    credentials: "include",
   }),
   reducerPath: "auth-api",
   tagTypes: ["Auth"],
@@ -30,6 +31,19 @@ export const api = createApi({
         url: "/auth/login",
         method: "POST",
         body: data,
+      }),
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setToken(data));
+          await dispatch(api.endpoints.authenticate.initiate(null));
+        } catch (error) {}
+      },
+    }),
+    refresh: build.mutation({
+      query: () => ({
+        url: "/auth/refresh",
+        method: "POST",
       }),
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
@@ -86,6 +100,7 @@ export const {
   useLazyAuthenticateQuery,
   useLogoutMutation,
   useLoginMutation,
+  useRefreshMutation,
   useRegisterMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,

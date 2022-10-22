@@ -11,20 +11,20 @@ import { links } from "~/consts/labels";
 import { AVATAR_PATH } from "~/consts/utils";
 import { colors } from "~/theme/config";
 import { mainRoutes } from "~/consts/routes";
-import { useLazyAuthenticateQuery } from "~/redux/api/auth-api";
+import { useRefreshMutation } from "~/redux/api/auth-api";
 
 const AppNavbar = () => {
   const navigate = useNavigate();
-  const { user, token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const [activeLink, setActiveLink] = useState(-1);
 
-  const [authenticate] = useLazyAuthenticateQuery();
+  const [refresh] = useRefreshMutation();
 
   useEffect(() => {
-    if (!user.id && token) {
-      authenticate();
+    if (!user.id) {
+      refresh();
     }
-  }, [authenticate, user.id, token]);
+  }, [refresh, user.id]);
 
   const userAvatar = (
     <Avatar
