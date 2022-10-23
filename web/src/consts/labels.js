@@ -13,8 +13,8 @@ const dropdownLabels = [
 ];
 
 const sortLabels = [
-  { label: "Likes Count", sortBy: "likes" },
   { label: "Publish Date", sortBy: "date" },
+  { label: "Likes Count", sortBy: "likes" },
 ];
 
 export { links, dropdownLabels, sortLabels };

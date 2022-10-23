@@ -15,7 +15,6 @@ const initialState = {
     login: "",
     avatar: "",
   },
-  loading: false,
   token,
   error: "",
 };

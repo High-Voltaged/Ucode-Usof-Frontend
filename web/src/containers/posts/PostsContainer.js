@@ -13,11 +13,11 @@ import PostMenu from "~/containers/post-menu/PostMenu";
 const PostsContainer = () => {
   const navigate = useNavigate();
 
-  const [sort, setSort] = useState("likes");
+  const [sort, setSort] = useState("date");
   const [filter, setFilter] = useState({});
   const { pageData, setPageData, controlHandler } = usePagination();
 
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
 
   const { data, isFetching, error } = useGetPostsQuery({
     page: pageData.page,
@@ -41,7 +41,7 @@ const PostsContainer = () => {
     navigate(postNav.post(id));
   };
 
-  const postCards = posts.map((post) => {
+  const postCards = (posts || []).map((post) => {
     return (
       <Grid xs={12} sm={6} lg={4} key={post.id}>
         <PostCard
@@ -54,20 +54,21 @@ const PostsContainer = () => {
     );
   });
 
-  const postsContent = isFetching ? (
-    <Loader isFullScreen />
-  ) : !postCards.length ? (
-    <ErrorTitle text="No posts were found" />
-  ) : (
-    <Grid.Container
-      gap={2}
-      alignContent="flex-start"
-      justify="center"
-      css={{ mt: "15px" }}
-    >
-      {postCards}
-    </Grid.Container>
-  );
+  const postsContent =
+    isFetching || !posts ? (
+      <Loader isFullScreen />
+    ) : !postCards.length ? (
+      <ErrorTitle text="No posts were found" />
+    ) : (
+      <Grid.Container
+        gap={2}
+        alignContent="flex-start"
+        justify="center"
+        css={{ mt: "15px" }}
+      >
+        {postCards}
+      </Grid.Container>
+    );
 
   return (
     <Grid.Container
@@ -77,7 +78,7 @@ const PostsContainer = () => {
     >
       <PostMenu setSort={setSort} setFilter={setFilter} />
       {postsContent}
-      {posts.length > 0 && (
+      {posts && posts.length > 0 && (
         <Grid.Container alignItems="center" justify="center" gap={6}>
           <Grid>
             <Pagination
