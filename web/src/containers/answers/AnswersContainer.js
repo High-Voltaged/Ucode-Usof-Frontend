@@ -5,6 +5,8 @@ import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
 import { useGetPostAnswersQuery } from "~/redux/api/posts-api";
 import CommentsContainer from "../comments/CommentsContainer";
+import CreateComment from "../comments/CreateComment";
+import styles from "./AnswersContainer.styles";
 
 const AnswersContainer = ({ postId }) => {
   const { data, isFetching, error } = useGetPostAnswersQuery(postId);
@@ -28,8 +30,9 @@ const AnswersContainer = ({ postId }) => {
       <Grid xs={12}>
         <AnswerCard answer={a} />
       </Grid>
-      <Grid xs={12} css={{ mt: "20px", px: "30px" }}>
+      <Grid xs={12} css={styles.container}>
         <CommentsContainer answerId={a.id} />
+        <CreateComment answerId={a.id} />
       </Grid>
     </Grid.Container>
   ));

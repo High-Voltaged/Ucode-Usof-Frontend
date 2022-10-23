@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { cacheEntityRating, cacheNewLike } from "~/utils/likes";
+import { postsApi } from "~/redux/api";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -18,6 +19,24 @@ export const api = createApi({
     getAnswerLikes: build.query({
       query: (answerId) => `/answers/${answerId}/like`,
     }),
+    getComments: build.query({
+      query: (answerId) => `/answers/${answerId}/comments`,
+    }),
+    addAnswerComment: build.mutation({
+      query: ({ answerId, body: { content } }) => ({
+        url: `/answers/${answerId}/comments`,
+        method: "post",
+        body: { content },
+      }),
+      async onQueryStarted({ answerId, body }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getComments", answerId, (draft) => {
+            draft.push(body);
+          })
+        );
+        queryFulfilled.catch(patchResult.undo);
+      },
+    }),
     addAnswerLike: build.mutation({
       query: ({ answerId, type }) => ({
         url: `/answers/${answerId}/like`,
@@ -35,7 +54,7 @@ export const api = createApi({
         );
         const cachedType = patchResult1.inversePatches[0].value.type;
         const patchResult2 = dispatch(
-          api.util.updateQueryData("getPostAnswers", postId, (draft) =>
+          postsApi.util.updateQueryData("getPostAnswers", postId, (draft) =>
             cacheEntityRating(draft, { ...patch, cachedType }, answerId)
           )
         );
@@ -46,4 +65,9 @@ export const api = createApi({
   }),
 });
 
-export const { useGetAnswerLikesQuery, useAddAnswerLikeMutation } = api;
+export const {
+  useGetAnswerLikesQuery,
+  useGetCommentsQuery,
+  useAddAnswerLikeMutation,
+  useAddAnswerCommentMutation,
+} = api;

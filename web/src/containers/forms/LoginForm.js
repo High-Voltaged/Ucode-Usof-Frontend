@@ -7,16 +7,16 @@ import InputField from "~/components/InputField/InputField";
 import { loginSchema } from "~/validation/auth";
 import { loginValues } from "~/containers/forms/const";
 import BaseButton from "~/components/Button/Button";
-import { SUCCESS_MSGS } from "~/consts/messages";
+import { SUCCESS } from "~/consts/messages";
 import { mainRoutes } from "~/consts/routes";
 import { colors } from "~/theme/config";
 import { useLoginMutation } from "~/redux/api/auth-api";
-import useAlert from "~/hooks/use-alert";
+import useRequest from "~/hooks/use-request";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
-  const { setAlert } = useAlert();
+  const { request } = useRequest(login, SUCCESS.LOGIN);
 
   const {
     values,
@@ -30,14 +30,8 @@ const LoginForm = () => {
     initialValues: loginValues,
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      login(values)
-        .unwrap()
-        .then(() => {
-          resetForm();
-          setAlert(SUCCESS_MSGS.LOGIN_SUCCESS, colors.success);
-          navigate(mainRoutes.landing);
-        })
-        .catch(({ data }) => setAlert(data.message, colors.error));
+      const res = await request(values, resetForm);
+      res && navigate(mainRoutes.landing);
     },
   });
 

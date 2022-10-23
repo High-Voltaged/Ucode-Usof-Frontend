@@ -5,23 +5,22 @@ import Select from "react-select/async";
 import BaseButton from "~/components/Button/Button";
 import Heading from "~/components/Heading/Heading";
 import InputField from "~/components/InputField/InputField";
-import { SUCCESS_MSGS } from "~/consts/messages";
+import { SUCCESS } from "~/consts/messages";
 import Editor from "~/containers/editor/Editor";
-import useAlert from "~/hooks/use-alert";
+import useRequest from "~/hooks/use-request";
 import {
   useCreatePostMutation,
   useGetCategoriesQuery,
 } from "~/redux/api/posts-api";
-import { colors } from "~/theme/config";
 import { createSchema } from "~/validation/posts";
 import styles from "./CreatePost.styles";
 
 const CreatePost = () => {
-  const { setAlert } = useAlert();
   const [categories, setCategories] = useState([]);
 
   const { data, isFetching: isCategoryFetching } = useGetCategoriesQuery();
   const [createPost, { isFetching }] = useCreatePostMutation();
+  const { request } = useRequest(createPost, SUCCESS.POST_CREATION);
 
   const fetchCategories = async (value) => {
     return categories.filter((c) =>
@@ -57,13 +56,7 @@ const CreatePost = () => {
     onSubmit: async ({ categories: opts, ...values }) => {
       const categories = opts.map((o) => o.value);
       const data = { categories, ...values };
-      createPost(data)
-        .unwrap()
-        .then(() => {
-          resetForm();
-          setAlert(SUCCESS_MSGS.POST_CREATION_SUCCESS, colors.success);
-        })
-        .catch(({ data }) => setAlert(data.message, colors.error));
+      await request(data, resetForm);
     },
   });
 

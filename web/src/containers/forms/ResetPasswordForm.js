@@ -6,18 +6,17 @@ import InputField from "~/components/InputField/InputField";
 import { resetPassSchema } from "~/validation/auth";
 import { resetPasswordValues } from "~/containers/forms/const";
 import BaseButton from "~/components/Button/Button";
-import { SUCCESS_MSGS } from "~/consts/messages";
+import { SUCCESS } from "~/consts/messages";
 import { useSearchParams } from "react-router-dom";
 import { useResetPasswordMutation } from "~/redux/api/auth-api";
-import useAlert from "~/hooks/use-alert";
-import { colors } from "~/theme/config";
+import useRequest from "~/hooks/use-request";
 
 const ResetPasswordForm = () => {
   const [searchParams] = useSearchParams();
   const resetToken = searchParams.get("resetToken");
 
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
-  const { setAlert } = useAlert();
+  const { request } = useRequest(resetPassword, SUCCESS.RESET_PASS);
 
   const {
     values,
@@ -30,14 +29,8 @@ const ResetPasswordForm = () => {
   } = useFormik({
     initialValues: resetPasswordValues,
     validationSchema: resetPassSchema,
-    onSubmit: (values) => {
-      resetPassword({ resetToken, ...values })
-        .unwrap()
-        .then(() => {
-          resetForm();
-          setAlert(SUCCESS_MSGS.RESET_PASS_SUCCESS, colors.success);
-        })
-        .catch(({ data }) => setAlert(data.message, colors.error));
+    onSubmit: async (values) => {
+      await request({ resetToken, ...values }, resetForm);
     },
   });
 

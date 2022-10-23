@@ -7,14 +7,13 @@ import { registerSchema } from "~/validation/auth";
 import BaseButton from "~/components/Button/Button";
 import { registerValues } from "~/containers/forms/const";
 
-import { SUCCESS_MSGS } from "~/consts/messages";
+import { SUCCESS } from "~/consts/messages";
 import { useRegisterMutation } from "~/redux/api/auth-api";
-import { colors } from "~/theme/config";
-import useAlert from "~/hooks/use-alert";
+import useRequest from "~/hooks/use-request";
 
 const RegisterForm = () => {
   const [register, { isLoading }] = useRegisterMutation();
-  const { setAlert } = useAlert();
+  const { request } = useRequest(register, SUCCESS.REGISTER);
 
   const {
     values,
@@ -27,14 +26,8 @@ const RegisterForm = () => {
   } = useFormik({
     initialValues: registerValues,
     validationSchema: registerSchema,
-    onSubmit: (values) => {
-      register(values)
-        .unwrap()
-        .then(() => {
-          resetForm();
-          setAlert(SUCCESS_MSGS.REGISTER_SUCCESS, colors.success);
-        })
-        .catch(({ data }) => setAlert(data.message, colors.error));
+    onSubmit: async (values) => {
+      await request(values, resetForm);
     },
   });
 

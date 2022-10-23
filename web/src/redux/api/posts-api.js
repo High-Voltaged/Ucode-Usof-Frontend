@@ -67,9 +67,6 @@ export const api = createApi({
     getPostAnswers: build.query({
       query: (id) => `/posts/${id}/answers`,
     }),
-    getComments: build.query({
-      query: (id) => `/answers/${id}/comments`,
-    }),
     getCategories: build.query({
       query: () => `/categories`,
     }),
@@ -83,7 +80,6 @@ export const {
   useGetPostAnswersQuery,
   useGetPostCategoriesQuery,
   useGetPostLikesQuery,
-  useGetCommentsQuery,
   useAddPostLikeMutation,
   useGetCategoriesQuery,
   useCreatePostMutation,
