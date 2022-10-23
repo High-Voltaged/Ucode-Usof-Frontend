@@ -39,10 +39,10 @@ const AppNavbar = () => {
 
   const navLinks = links.map((link) => (
     <Navbar.Link
-      key={link.id}
+      key={link.label}
       color="inherit"
-      onPress={() => setActiveLink(link.id)}
-      isActive={activeLink === link.id}
+      onPress={() => setActiveLink(link.label)}
+      isActive={activeLink === link.label}
       href={link.href}
     >
       {link.label}
@@ -97,13 +97,14 @@ const AppNavbar = () => {
       <Navbar.Collapse>
         {links.map((link) => (
           <Navbar.CollapseItem
-            key={link.id}
+            key={link.label}
             color="inherit"
-            onPress={() => setActiveLink(link.id)}
-            isActive={activeLink === link.id}
+            onPress={() => setActiveLink(link.label)}
+            isActive={activeLink === link.label}
           >
-            <Link href={link.href}></Link>
-            {link.label}
+            <Link color={colors.feature} href={link.href}>
+              {link.label}
+            </Link>
           </Navbar.CollapseItem>
         ))}
       </Navbar.Collapse>

@@ -6,6 +6,7 @@ import ForgotPassword from "./auth/ForgotPassword";
 import ConfirmEmail from "./auth/ConfirmEmail";
 import Posts from "./posts/Posts";
 import Post from "./posts/Post";
+import CreatePost from "./posts/CreatePost";
 
 import NotFound from "./error/NotFound";
 
@@ -19,4 +20,5 @@ export {
   Posts,
   Post,
   NotFound,
+  CreatePost,
 };

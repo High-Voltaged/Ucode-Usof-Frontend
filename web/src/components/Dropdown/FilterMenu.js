@@ -21,7 +21,14 @@ const FilterMenu = ({ setFilter }) => {
     <Grid.Container gap={2}>
       <Grid xs={12} justify="center" alignItems="center">
         <form onSubmit={handleSubmit}>
-          <Row justify="space-between" align="center">
+          <Row
+            justify="space-between"
+            align="center"
+            css={{
+              fd: "column",
+              "@xs": { fd: "row" },
+            }}
+          >
             <InputField
               name="category"
               label="Search by a category"
@@ -40,7 +47,7 @@ const FilterMenu = ({ setFilter }) => {
               onBlur={handleBlur}
               setFieldValue={setFieldValue}
               helperText={touched.dateStart && errors.dateStart}
-              css={styles}
+              css={{ "@xs": styles }}
             />
             <InputField
               name="dateEnd"
@@ -51,7 +58,7 @@ const FilterMenu = ({ setFilter }) => {
               onBlur={handleBlur}
               setFieldValue={setFieldValue}
               helperText={touched.dateEnd && errors.dateEnd}
-              css={styles}
+              css={{ "@xs": styles }}
             />
           </Row>
           <Row justify="center" css={{ mt: "10px" }}>

@@ -1,27 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@import "quill.css";
 
-* {
+*,
+p {
   box-sizing: border-box;
+  font-family: "Poppins", "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body,
 html {
   margin: 0;
   height: 100%;
-  font-family: "Poppins", "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 div#root {
   height: 100%;
-  /* background-color: #c8f9dd; */
 }
-
-/* .nextui-navbar,
-.nextui-navbar-container {
-  background: #fdefd8 !important;
-} */
 
 .nextui-input-helper-text {
   font-size: 12px;

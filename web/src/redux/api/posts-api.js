@@ -33,6 +33,13 @@ export const api = createApi({
     getPostLikes: build.query({
       query: (postId) => `/posts/${postId}/like`,
     }),
+    createPost: build.mutation({
+      query: (data) => ({
+        url: `/posts`,
+        method: "post",
+        body: data,
+      }),
+    }),
     addPostLike: build.mutation({
       query: ({ postId, type }) => ({
         url: `/posts/${postId}/like`,
@@ -63,6 +70,9 @@ export const api = createApi({
     getComments: build.query({
       query: (id) => `/answers/${id}/comments`,
     }),
+    getCategories: build.query({
+      query: () => `/categories`,
+    }),
   }),
 });
 
@@ -75,4 +85,6 @@ export const {
   useGetPostLikesQuery,
   useGetCommentsQuery,
   useAddPostLikeMutation,
+  useGetCategoriesQuery,
+  useCreatePostMutation,
 } = api;

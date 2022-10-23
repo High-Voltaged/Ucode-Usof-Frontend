@@ -2,7 +2,6 @@ import { Avatar, Button, Card, Col, Container, Text } from "@nextui-org/react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { AVATAR_PATH } from "~/consts/utils";
 import useDate from "~/hooks/use-date";
-import { colors } from "~/theme/config";
 import CategoryBadges from "~/components/Category/Badges";
 import { post as styles } from "./Card.styles";
 import {
@@ -13,14 +12,17 @@ import {
 import { useEffect, useState } from "react";
 import useAuthorLike from "~/hooks/use-author-like";
 import { LIKES_ENUM } from "~/consts/validation";
+import useDomPurify from "~/hooks/use-dom-purify";
 
 const PostCard = ({
   post: { id, title, content, authorLogin, authorAvatar, publishDate, rating },
   onPress = null,
   ...props
 }) => {
+  const isPostPage = onPress === null;
   const { date } = useDate(publishDate);
   const { authorLike, author } = useAuthorLike(id, useGetPostLikesQuery);
+  const { sanitized } = useDomPurify(content);
 
   const { data: categoriesData } = useGetPostCategoriesQuery(id);
   const [addLike] = useAddPostLikeMutation();
@@ -37,6 +39,10 @@ const PostCard = ({
     categoriesData && setCategories(categoriesData);
   }, [categoriesData]);
 
+  const footerStyles = isPostPage
+    ? { ...styles.container, ...styles.colBottom }
+    : { ...styles.container };
+
   return (
     <Card css={styles.card} onPress={onPress} {...props}>
       <Container css={styles.container}>
@@ -46,7 +52,7 @@ const PostCard = ({
               light={authorLike !== LIKES_ENUM[0]}
               flat={authorLike === LIKES_ENUM[0]}
               auto
-              disabled={onPress !== null}
+              disabled={!isPostPage}
               css={{ minWidth: "auto" }}
               icon={<FaChevronUp size={20} />}
               onPress={addLikeHandler}
@@ -56,7 +62,7 @@ const PostCard = ({
               light={authorLike !== LIKES_ENUM[1]}
               flat={authorLike === LIKES_ENUM[1]}
               auto
-              disabled={onPress !== null}
+              disabled={!isPostPage}
               css={{ minWidth: "auto" }}
               icon={<FaChevronDown size={20} />}
               onPress={addDislikeHandler}
@@ -66,9 +72,11 @@ const PostCard = ({
         <Col span={10} css={styles.colRight}>
           <Card.Body css={{ p: 0 }}>
             <Text h3>{title}</Text>
-            <Text color={colors.default}>{content}</Text>
+            {isPostPage && (
+              <div dangerouslySetInnerHTML={{ __html: sanitized }}></div>
+            )}
           </Card.Body>
-          <Card.Footer css={{ ...styles.container, ...styles.colBottom }}>
+          <Card.Footer css={footerStyles}>
             <Container css={{ ...styles.container, ...styles.badges }}>
               <Col>{categoryBadges}</Col>
               <Col css={{ ...styles.footer, ...styles.colBottom }}>

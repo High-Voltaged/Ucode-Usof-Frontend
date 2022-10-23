@@ -20,11 +20,13 @@ const profileRoutes = {
 
 const postRoutes = {
   postWithId: "/:id",
+  create: "/create",
 };
 
 const postNav = {
   posts: "/posts",
   post: (id) => `/posts/${id}`,
+  create: "/posts/create",
 };
 
 export { routes, mainRoutes, profileRoutes, postRoutes, postNav };
