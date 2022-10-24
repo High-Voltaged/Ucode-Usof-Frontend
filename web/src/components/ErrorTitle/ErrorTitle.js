@@ -1,10 +1,10 @@
 const { Text } = require("@nextui-org/react");
 
-const ErrorTitle = ({ text }) => {
+const ErrorTitle = ({ text, size }) => {
   return (
     <Text
       h1
-      size={80}
+      size={size || 80}
       css={{
         textGradient: "45deg, $yellow600 40%, $red600 80%",
         textAlign: "center",

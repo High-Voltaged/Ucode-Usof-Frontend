@@ -85,8 +85,8 @@ const PostsContainer = () => {
               size="lg"
               color={colors.feature}
               shadow
-              initialPage={data.currentPage || pageData.current}
-              total={data.pagesCount || pageData.pages}
+              initialPage={pageData.page}
+              total={pageData.pages}
               onChange={controlHandler}
             />
           </Grid>

@@ -1,4 +1,4 @@
-import { Grid } from "@nextui-org/react";
+import { Grid, Spacer } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import CommentCard from "~/components/Cards/Comment";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
@@ -23,15 +23,16 @@ const CommentsContainer = ({ answerId }) => {
   }
 
   const commentCards = comments.map((a) => (
-    <Grid xs={12} key={a.id}>
-      <CommentCard comment={a} />
-    </Grid>
+    <>
+      <Grid xs={12} key={a.id}>
+        <CommentCard comment={a} />
+      </Grid>
+      <Spacer />
+    </>
   ));
 
   return (
-    <Grid.Container gap={1} alignContent="flex-start">
-      {commentCards}
-    </Grid.Container>
+    <Grid.Container alignContent="flex-start">{commentCards}</Grid.Container>
   );
 };
 

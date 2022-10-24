@@ -1,15 +1,16 @@
-import { Avatar, Button, Card, Col, Container, Text } from "@nextui-org/react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { Avatar, Card, Col, Container, Text } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
 import { AVATAR_PATH } from "~/consts/utils";
 import { LIKES_ENUM } from "~/consts/validation";
 import useAuthorLike from "~/hooks/use-author-like";
 import useDate from "~/hooks/use-date";
+import useDomPurify from "~/hooks/use-dom-purify";
 import {
   useAddAnswerLikeMutation,
   useGetAnswerLikesQuery,
 } from "~/redux/api/answers-api";
-import { colors } from "~/theme/config";
+import DislikeButton from "../Button/DislikeButton";
+import LikeButton from "../Button/LikeButton";
 import { answer as styles } from "./Card.styles";
 
 const AnswerCard = ({
@@ -18,6 +19,7 @@ const AnswerCard = ({
 }) => {
   const { id: postId } = useParams();
   const { date } = useDate(publishDate);
+  const { sanitized } = useDomPurify(content);
   const { authorLike, author } = useAuthorLike(id, useGetAnswerLikesQuery);
 
   const [addLike] = useAddAnswerLikeMutation();
@@ -42,28 +44,14 @@ const AnswerCard = ({
       <Container css={styles.container}>
         <Col span={1}>
           <div style={styles.likes}>
-            <Button
-              light={authorLike !== LIKES_ENUM[0]}
-              flat={authorLike === LIKES_ENUM[0]}
-              auto
-              css={{ minWidth: "auto" }}
-              icon={<FaChevronUp size={20} />}
-              onPress={addLikeHandler}
-            />
+            <LikeButton like={authorLike} handler={addLikeHandler} />
             <Text css={styles.likesCount}>{rating}</Text>
-            <Button
-              light={authorLike !== LIKES_ENUM[1]}
-              flat={authorLike === LIKES_ENUM[1]}
-              auto
-              css={{ minWidth: "auto" }}
-              icon={<FaChevronDown size={20} />}
-              onPress={addDislikeHandler}
-            />
+            <DislikeButton like={authorLike} handler={addDislikeHandler} />
           </div>
         </Col>
         <Col span={10} css={styles.colRight}>
           <Card.Body css={{ p: 0 }}>
-            <Text color={colors.default}>{content}</Text>
+            <div dangerouslySetInnerHTML={{ __html: sanitized }}></div>
           </Card.Body>
           <Card.Footer css={{ ...styles.container, ...styles.colBottom }}>
             <Container css={styles.container}>

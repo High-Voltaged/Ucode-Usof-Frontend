@@ -1,5 +1,5 @@
 const colors = {
-  feature: "warning",
+  feature: "success",
   error: "error",
   success: "success",
   default: "default",

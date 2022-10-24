@@ -1,5 +1,4 @@
-import { Avatar, Button, Card, Col, Container, Text } from "@nextui-org/react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { Avatar, Card, Col, Container, Text } from "@nextui-org/react";
 import { AVATAR_PATH } from "~/consts/utils";
 import useDate from "~/hooks/use-date";
 import CategoryBadges from "~/components/Category/Badges";
@@ -13,6 +12,8 @@ import { useEffect, useState } from "react";
 import useAuthorLike from "~/hooks/use-author-like";
 import { LIKES_ENUM } from "~/consts/validation";
 import useDomPurify from "~/hooks/use-dom-purify";
+import LikeButton from "../Button/LikeButton";
+import DislikeButton from "../Button/DislikeButton";
 
 const PostCard = ({
   post: { id, title, content, authorLogin, authorAvatar, publishDate, rating },
@@ -48,24 +49,16 @@ const PostCard = ({
       <Container css={styles.container}>
         <Col span={1}>
           <div style={styles.likes}>
-            <Button
-              light={authorLike !== LIKES_ENUM[0]}
-              flat={authorLike === LIKES_ENUM[0]}
-              auto
+            <LikeButton
+              like={authorLike}
+              handler={addLikeHandler}
               disabled={!isPostPage}
-              css={{ minWidth: "auto" }}
-              icon={<FaChevronUp size={20} />}
-              onPress={addLikeHandler}
             />
             <Text css={styles.likesCount}>{rating}</Text>
-            <Button
-              light={authorLike !== LIKES_ENUM[1]}
-              flat={authorLike === LIKES_ENUM[1]}
-              auto
+            <DislikeButton
+              like={authorLike}
+              handler={addDislikeHandler}
               disabled={!isPostPage}
-              css={{ minWidth: "auto" }}
-              icon={<FaChevronDown size={20} />}
-              onPress={addDislikeHandler}
             />
           </div>
         </Col>

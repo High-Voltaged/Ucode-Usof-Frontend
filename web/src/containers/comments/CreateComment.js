@@ -7,6 +7,7 @@ import InputField from "~/components/InputField/InputField";
 import { SUCCESS } from "~/consts/messages";
 import useRequest from "~/hooks/use-request";
 import { useAddAnswerCommentMutation } from "~/redux/api/answers-api";
+import { colors } from "~/theme/config";
 import { createSchema } from "~/validation/comments";
 
 const CreateComment = ({ answerId }) => {
@@ -44,6 +45,7 @@ const CreateComment = ({ answerId }) => {
       <Grid css={{ d: "flex", gap: 10 }}>
         <BaseButton
           text={!isExpanded ? "Add a comment" : "Cancel"}
+          color={isExpanded ? colors.error : colors.feature}
           size="sm"
           bordered
           onPress={() => setIsExpanded((prev) => !prev)}
@@ -53,7 +55,7 @@ const CreateComment = ({ answerId }) => {
             text="Submit"
             size="sm"
             loading={isLoading}
-            onPress={() => handleSubmit()}
+            onPress={handleSubmit}
           />
         )}
       </Grid>

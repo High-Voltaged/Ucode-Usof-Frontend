@@ -6,6 +6,8 @@ import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
 import { useGetPostQuery } from "~/redux/api/posts-api";
 import AnswersContainer from "../answers/AnswersContainer";
+import CreateAnswer from "../answers/CreateAnswer";
+import styles from "./PostContainer.styles";
 
 const PostContainer = () => {
   const { id } = useParams();
@@ -37,7 +39,8 @@ const PostContainer = () => {
       <Grid xs={12} sm={10}>
         <PostCard post={post} />
       </Grid>
-      <Grid xs={12} sm={10} css={{ mt: "120px" }}>
+      <Grid xs={12} sm={10} css={{ mt: "120px", ...styles.container }}>
+        <CreateAnswer postId={Number(id)} />
         <AnswersContainer postId={Number(id)} />
       </Grid>
     </Grid.Container>

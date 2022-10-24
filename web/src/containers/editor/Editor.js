@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-function Editor({ ...props }) {
+function Editor({ height = 300, ...props }) {
   const modules = {
     toolbar: [
       [{ font: [] }],
@@ -13,7 +13,7 @@ function Editor({ ...props }) {
 
   return (
     <ReactQuill
-      style={{ width: "100%", height: "300px" }}
+      style={{ width: "100%", height }}
       modules={modules}
       theme="snow"
       {...props}

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { cacheEntityRating, cacheNewLike } from "~/utils/likes";
+import _ from "lodash";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -13,14 +14,18 @@ export const api = createApi({
     },
   }),
   reducerPath: "posts-api",
-  tagTypes: ["Posts"],
+  tagTypes: ["Posts", "PostAnswers"],
   endpoints: (build) => ({
     getPosts: build.query({
       query: (
         { page, sort, filter } = { page: 1, sort: "likes", filter: {} }
       ) => ({
         url: `/posts`,
-        params: { page, sort, ...filter },
+        params: {
+          page: _.isEmpty(filter) ? page : 1,
+          sort,
+          ...filter,
+        },
       }),
       providesTags: ["Posts"],
     }),
@@ -39,6 +44,14 @@ export const api = createApi({
         method: "post",
         body: data,
       }),
+    }),
+    createPostAnswer: build.mutation({
+      query: ({ postId, body: { content } }) => ({
+        url: `/posts/${postId}/answers`,
+        method: "post",
+        body: { content },
+      }),
+      invalidatesTags: ["PostAnswers"],
     }),
     addPostLike: build.mutation({
       query: ({ postId, type }) => ({
@@ -66,6 +79,7 @@ export const api = createApi({
     }),
     getPostAnswers: build.query({
       query: (id) => `/posts/${id}/answers`,
+      providesTags: ["PostAnswers"],
     }),
     getCategories: build.query({
       query: () => `/categories`,
@@ -83,4 +97,5 @@ export const {
   useAddPostLikeMutation,
   useGetCategoriesQuery,
   useCreatePostMutation,
+  useCreatePostAnswerMutation,
 } = api;
