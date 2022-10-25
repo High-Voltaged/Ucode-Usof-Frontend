@@ -21,12 +21,14 @@ const profileRoutes = {
 const postRoutes = {
   postWithId: "/:id",
   create: "/create",
+  edit: "/edit/:id",
 };
 
 const postNav = {
   posts: "/posts",
   post: (id) => `/posts/${id}`,
   create: "/posts/create",
+  edit: (id) => `/posts/edit/${id}`,
 };
 
 export { routes, mainRoutes, profileRoutes, postRoutes, postNav };

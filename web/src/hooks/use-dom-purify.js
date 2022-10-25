@@ -1,7 +1,7 @@
-import * as DOMPurify from "dompurify";
+import { sanitize } from "dompurify";
 
 const useDomPurify = (content) => {
-  const sanitized = DOMPurify.sanitize(content, {
+  const sanitized = sanitize(content, {
     USE_PROFILES: { html: true },
   });
 

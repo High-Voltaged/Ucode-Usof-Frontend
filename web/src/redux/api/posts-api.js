@@ -14,7 +14,7 @@ export const api = createApi({
     },
   }),
   reducerPath: "posts-api",
-  tagTypes: ["Posts", "PostAnswers"],
+  tagTypes: ["Posts", "Post", "PostAnswers", "PostCategories"],
   endpoints: (build) => ({
     getPosts: build.query({
       query: (
@@ -27,23 +27,61 @@ export const api = createApi({
           ...filter,
         },
       }),
-      providesTags: ["Posts"],
+      providesTags: (result) =>
+        result
+          ? [...result.posts.map(({ id }) => ({ type: "Posts", id })), "Posts"]
+          : ["Posts"],
     }),
     getPost: build.query({
       query: (postId) => `/posts/${postId}`,
+      providesTags: (_r, _e, arg) => [{ type: "Post", id: arg }],
     }),
     getPostCategories: build.query({
       query: (postId) => `/posts/${postId}/categories`,
+      providesTags: (_r, _e, arg) => [{ type: "PostCategories", id: arg }],
     }),
     getPostLikes: build.query({
       query: (postId) => `/posts/${postId}/like`,
     }),
     createPost: build.mutation({
-      query: (data) => ({
+      query: (body) => ({
         url: `/posts`,
         method: "post",
-        body: data,
+        body,
       }),
+    }),
+    editPost: build.mutation({
+      query: ({ id, body }) => ({
+        url: `/posts/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      async onQueryStarted(
+        { id, body: { title, content } },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getPost", id, (draft) => {
+            Object.assign(draft, { title, content });
+          })
+        );
+        queryFulfilled.catch(patchResult.undo);
+      },
+      invalidatesTags: (_r, _e, arg) => [
+        { type: "Posts", id: arg.id },
+        { type: "PostCategories", id: arg.id },
+      ],
+    }),
+    deletePost: build.mutation({
+      query: ({ id }) => ({
+        url: `/posts/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_r, _e, arg) => [
+        { type: "Post", id: arg.id },
+        { type: "Posts", id: arg.id },
+        { type: "PostCategories", id: arg.id },
+      ],
     }),
     createPostAnswer: build.mutation({
       query: ({ postId, body: { content } }) => ({
@@ -75,7 +113,7 @@ export const api = createApi({
         queryFulfilled.catch(patchResult1.undo);
         queryFulfilled.catch(patchResult2.undo);
       },
-      invalidatesTags: ["Posts"],
+      invalidatesTags: (_r, _e, arg) => [{ type: "Posts", id: arg.id }],
     }),
     getPostAnswers: build.query({
       query: (id) => `/posts/${id}/answers`,
@@ -97,5 +135,7 @@ export const {
   useAddPostLikeMutation,
   useGetCategoriesQuery,
   useCreatePostMutation,
+  useEditPostMutation,
+  useDeletePostMutation,
   useCreatePostAnswerMutation,
 } = api;

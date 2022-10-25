@@ -7,6 +7,7 @@ import ConfirmEmail from "./auth/ConfirmEmail";
 import Posts from "./posts/Posts";
 import Post from "./posts/Post";
 import CreatePost from "./posts/CreatePost";
+import EditPost from "./posts/EditPost";
 
 import NotFound from "./error/NotFound";
 
@@ -21,4 +22,5 @@ export {
   Post,
   NotFound,
   CreatePost,
+  EditPost,
 };
