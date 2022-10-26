@@ -5,7 +5,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.REACT_APP_API_URL}/api`,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = getState().auth.accessToken;
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
@@ -25,6 +25,7 @@ export const api = createApi({
           dispatch(setUser(data));
         } catch (error) {}
       },
+      providesTags: ["Auth"],
     }),
     login: build.mutation({
       query: (data) => ({
@@ -34,11 +35,11 @@ export const api = createApi({
       }),
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          dispatch(setToken(data));
-          await dispatch(api.endpoints.authenticate.initiate(null));
+          await queryFulfilled;
+          await dispatch(api.endpoints.authenticate.initiate());
         } catch (error) {}
       },
+      invalidatesTags: ["Auth"],
     }),
     refresh: build.mutation({
       query: () => ({
@@ -49,7 +50,7 @@ export const api = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setToken(data));
-          await dispatch(api.endpoints.authenticate.initiate(null));
+          await dispatch(api.endpoints.authenticate.initiate());
         } catch (error) {}
       },
     }),

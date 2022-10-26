@@ -19,12 +19,12 @@ const PostContainer = () => {
     data && setPost(data);
   }, [data]);
 
-  if (isFetching || !post.id) {
-    return <Loader isFullScreen />;
-  }
-
   if (error) {
     return <ErrorTitle text={error.data.message} />;
+  }
+
+  if (isFetching || !post.id) {
+    return <Loader isFullScreen />;
   }
 
   return (

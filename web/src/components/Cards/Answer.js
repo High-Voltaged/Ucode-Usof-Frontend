@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Container, Text } from "@nextui-org/react";
+import { Avatar, Card, Col, Container, Grid, Text } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
 import { AVATAR_PATH } from "~/consts/utils";
 import { LIKES_ENUM } from "~/consts/validation";
@@ -54,8 +54,12 @@ const AnswerCard = ({
             <div dangerouslySetInnerHTML={{ __html: sanitized }}></div>
           </Card.Body>
           <Card.Footer css={{ ...styles.container, ...styles.colBottom }}>
-            <Container css={styles.container}>
-              <Col css={{ ...styles.footer, ...styles.colBottom }}>
+            <Grid.Container
+              gap={1}
+              css={{ px: 0, flexWrap: "wrap" }}
+              alignItems="center"
+            >
+              <Grid xs={12} css={{ jc: "flex-end" }}>
                 <Avatar size="sm" src={AVATAR_PATH(authorAvatar)} />
                 <Text size="xs" css={styles.footerItem}>
                   {authorLogin}
@@ -63,8 +67,8 @@ const AnswerCard = ({
                 <Text size="xs" css={styles.footerItem}>
                   {date}
                 </Text>
-              </Col>
-            </Container>
+              </Grid>
+            </Grid.Container>
           </Card.Footer>
         </Col>
       </Container>

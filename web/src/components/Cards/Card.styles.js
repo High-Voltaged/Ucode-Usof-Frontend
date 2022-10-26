@@ -4,11 +4,6 @@ const base = {
     display: "flex",
     padding: 0,
   },
-  footer: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
   footerItem: { marginLeft: "6px" },
 };
 
@@ -28,15 +23,12 @@ const post = {
     lh: "$lg",
     fontWeight: "$semibold",
   },
-  footer: {
-    ...base.footer,
-    justifyContent: "flex-end",
-  },
-  badges: {
+  colRight: {
+    ml: "16px",
+    height: "100%",
+    d: "flex",
     fd: "column",
   },
-  colRight: { ml: "16px" },
-  colBottom: { mt: "10px" },
 };
 
 const answer = {

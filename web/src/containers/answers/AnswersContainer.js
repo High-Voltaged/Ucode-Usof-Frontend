@@ -1,5 +1,5 @@
 import { Grid, Spacer } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import AnswerCard from "~/components/Cards/Answer";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
@@ -26,8 +26,8 @@ const AnswersContainer = ({ postId }) => {
   }
 
   const answerCards = (answers || []).map((a) => (
-    <>
-      <Grid.Container xs={12} css={{ jc: "center" }} key={a.id}>
+    <Fragment key={a.id}>
+      <Grid.Container xs={12} css={{ jc: "center" }}>
         <Grid xs={12}>
           <AnswerCard answer={a} />
         </Grid>
@@ -37,7 +37,7 @@ const AnswersContainer = ({ postId }) => {
         </Grid>
       </Grid.Container>
       <Spacer y={4} />
-    </>
+    </Fragment>
   ));
 
   const answerContent =

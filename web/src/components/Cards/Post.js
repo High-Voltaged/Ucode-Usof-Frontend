@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Container, Text } from "@nextui-org/react";
+import { Avatar, Card, Col, Container, Text, Grid } from "@nextui-org/react";
 import { AVATAR_PATH } from "~/consts/utils";
 import useDate from "~/hooks/use-date";
 import CategoryBadges from "~/components/Category/Badges";
@@ -14,6 +14,8 @@ import { LIKES_ENUM } from "~/consts/validation";
 import useDomPurify from "~/hooks/use-dom-purify";
 import LikeButton from "../Button/LikeButton";
 import DislikeButton from "../Button/DislikeButton";
+import EditDeleteBtns from "../Button/EditButton";
+import { postNav } from "~/consts/routes";
 
 const PostCard = ({
   post: { id, title, content, authorLogin, authorAvatar, publishDate, rating },
@@ -70,9 +72,18 @@ const PostCard = ({
             )}
           </Card.Body>
           <Card.Footer css={footerStyles}>
-            <Container css={{ ...styles.container, ...styles.badges }}>
-              <Col>{categoryBadges}</Col>
-              <Col css={{ ...styles.footer, ...styles.colBottom }}>
+            <Grid.Container
+              gap={2}
+              css={{ px: 0, flexWrap: "wrap" }}
+              alignItems="center"
+            >
+              <Grid xs={12}>{categoryBadges}</Grid>
+              {isPostPage && (
+                <Grid xs={2}>
+                  <EditDeleteBtns routeTo={postNav.edit(id)} />
+                </Grid>
+              )}
+              <Grid xs={isPostPage ? 10 : 12} css={{ jc: "flex-end" }}>
                 <Avatar size="sm" src={AVATAR_PATH(authorAvatar)} />
                 <Text size="xs" css={styles.footerItem}>
                   {authorLogin}
@@ -80,8 +91,8 @@ const PostCard = ({
                 <Text size="xs" css={styles.footerItem}>
                   {date}
                 </Text>
-              </Col>
-            </Container>
+              </Grid>
+            </Grid.Container>
           </Card.Footer>
         </Col>
       </Container>

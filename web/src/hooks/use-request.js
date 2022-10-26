@@ -10,7 +10,7 @@ const useRequest = (mutation, successMsg) => {
     async (values, resetForm) => {
       try {
         const response = await mutation(values).unwrap();
-        resetForm();
+        resetForm && resetForm();
         setAlert(successMsg, colors.success);
         return response;
       } catch ({ data }) {

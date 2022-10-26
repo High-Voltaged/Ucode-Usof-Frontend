@@ -7,8 +7,8 @@ import { useRefreshMutation } from "~/redux/api/auth-api";
 import { useEffect } from "react";
 
 const App = () => {
-  const { user, token } = useSelector((state) => state.auth);
-  const [refresh, { isLoading }] = useRefreshMutation();
+  const { user } = useSelector((state) => state.auth);
+  const [refresh, { isLoading, error }] = useRefreshMutation();
 
   useEffect(() => {
     if (!user.id) {
@@ -16,7 +16,7 @@ const App = () => {
     }
   }, [refresh, user.id]);
 
-  if (isLoading || (!user.id && token)) {
+  if (isLoading || (!user.id && !error)) {
     return (
       <div style={styles.mainContainer}>
         <Loader />

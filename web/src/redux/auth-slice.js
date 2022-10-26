@@ -4,8 +4,9 @@ import {
   removeFromLocalStorage,
   updateLocalStorage,
 } from "~/utils/local-storage";
+import { authApi } from "./api";
 
-const token = getLocalStorageItem("accessToken") || null;
+const accessToken = getLocalStorageItem("accessToken") || null;
 
 const initialState = {
   user: {
@@ -15,7 +16,7 @@ const initialState = {
     login: "",
     avatar: "",
   },
-  token,
+  accessToken,
   error: "",
 };
 
@@ -31,13 +32,22 @@ const authSlice = createSlice({
       state.user = { id, role, email, login, avatar };
     },
     setToken(state, { payload }) {
-      updateLocalStorage("accessToken", payload.accessToken);
-      state.token = payload.accessToken;
+      const { accessToken } = payload;
+      updateLocalStorage("accessToken", accessToken);
+      state.accessToken = accessToken;
     },
     logout(state, _action) {
       removeFromLocalStorage("accessToken");
-      state.token = null;
+      state.accessToken = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      authApi.endpoints.login.matchFulfilled,
+      (state, { payload }) => {
+        state.accessToken = payload.accessToken;
+      }
+    );
   },
 });
 

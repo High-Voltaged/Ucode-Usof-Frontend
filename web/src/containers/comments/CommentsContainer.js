@@ -1,5 +1,5 @@
 import { Grid, Spacer } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CommentCard from "~/components/Cards/Comment";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Loader from "~/components/Loader/Loader";
@@ -23,12 +23,12 @@ const CommentsContainer = ({ answerId }) => {
   }
 
   const commentCards = comments.map((a) => (
-    <>
-      <Grid xs={12} key={a.id}>
+    <Fragment key={a.id}>
+      <Grid xs={12}>
         <CommentCard comment={a} />
       </Grid>
       <Spacer />
-    </>
+    </Fragment>
   ));
 
   return (

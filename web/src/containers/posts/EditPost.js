@@ -1,11 +1,13 @@
-import { Card, Grid, Row } from "@nextui-org/react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
+import { Button, Card, Grid, Popover } from "@nextui-org/react";
 import BaseButton from "~/components/Button/Button";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Heading from "~/components/Heading/Heading";
 import Loader from "~/components/Loader/Loader";
 import {
+  useDeletePostMutation,
   useEditPostMutation,
   useGetPostCategoriesQuery,
   useGetPostQuery,
@@ -17,55 +19,60 @@ import useCategories from "~/hooks/use-categories";
 import { getInitValues } from "./const";
 import useRequest from "~/hooks/use-request";
 import { SUCCESS } from "~/consts/messages";
+import { colors } from "~/theme/config";
+import BasePopover from "~/components/popover/Popover";
+import { postNav } from "~/consts/routes";
 
 const EditPostContainer = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: post, isFetching, error } = useGetPostQuery(Number(id));
 
   const { data: categories, error: categoryError } = useGetPostCategoriesQuery(
     Number(id)
   );
-  const [editPost, { isLoading }] = useEditPostMutation(Number(id));
+  const [editPost, { editLoading }] = useEditPostMutation();
+  const [deletePost, { deleteLoading }] = useDeletePostMutation();
   const { isCategoryFetching, filterCategories } = useCategories();
 
-  const { request } = useRequest(editPost, SUCCESS.POST_UPDATE);
+  const { request: editRequest } = useRequest(editPost, SUCCESS.POST_UPDATE);
+  const { request: deleteRequest } = useRequest(
+    deletePost,
+    SUCCESS.POST_DELETION
+  );
 
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    handleBlur,
-    setFieldValue,
-    resetForm,
-  } = useFormik({
-    initialValues: getInitValues(post, categories),
-    validationSchema: createSchema,
-    enableReinitialize: true,
-    onSubmit: async ({ categories: options, ...values }) => {
-      const newCategories = options.map((o) => o.value);
-      const oldCategories = categories.map((c) => c.id);
+  const onConfirm = async () => {
+    await deleteRequest(Number(id));
+    navigate(postNav.posts);
+  };
 
-      const body = {};
-      if (JSON.stringify(newCategories) !== JSON.stringify(oldCategories)) {
-        body.categories = newCategories;
-      }
-      Object.entries(values).forEach(([key, value]) => {
-        if (post[key] !== value) {
-          body[key] = value;
+  const { values, errors, touched, handleSubmit, handleBlur, setFieldValue } =
+    useFormik({
+      initialValues: getInitValues(post, categories),
+      validationSchema: createSchema,
+      enableReinitialize: true,
+      onSubmit: async ({ categories: options, ...values }) => {
+        const newCategories = options.map((o) => o.value);
+        const oldCategories = categories.map((c) => c.id);
+
+        const body = {};
+        if (JSON.stringify(newCategories) !== JSON.stringify(oldCategories)) {
+          body.categories = newCategories;
         }
-      });
+        Object.entries(values).forEach(([key, value]) => {
+          if (post[key] !== value) {
+            body[key] = value;
+          }
+        });
 
-      if (!Object.keys(body).length) {
-        return;
-      }
-
-      await request({ id: Number(id), body }, resetForm);
-    },
-  });
+        await editRequest({ id: Number(id), body }, null);
+      },
+    });
 
   if (error) {
-    return <ErrorTitle text={error.message} />;
+    return <ErrorTitle text={error.data.message} />;
   }
   if (categoryError) {
     return <ErrorTitle text={categoryError.data.message} />;
@@ -102,9 +109,27 @@ const EditPostContainer = () => {
           </Card.Header>
           <Card.Body css={styles.overflow}>
             <CreatePostForm formik={formik} select={select}>
-              <Row justify="center" css={styles.margin}>
-                <BaseButton text="Update the post" loading={isLoading} />
-              </Row>
+              <Grid.Container justify="center" gap={1} css={styles.margin}>
+                <Grid>
+                  <BaseButton text="Update the post" loading={editLoading} />
+                </Grid>
+                <Grid>
+                  <Popover isOpen={isOpen} onOpenChange={setIsOpen}>
+                    <Popover.Trigger>
+                      <Button color={colors.error} size="lg" flat>
+                        {deleteLoading ? <Loader /> : "Delete"}
+                      </Button>
+                    </Popover.Trigger>
+                    <Popover.Content>
+                      <BasePopover
+                        onCancel={() => setIsOpen(false)}
+                        onConfirm={onConfirm}
+                        message="Are you sure you want to delete this post?"
+                      />
+                    </Popover.Content>
+                  </Popover>
+                </Grid>
+              </Grid.Container>
             </CreatePostForm>
           </Card.Body>
         </Card>

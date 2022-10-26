@@ -6,7 +6,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.REACT_APP_API_URL}/api`,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = getState().auth.accessToken;
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
@@ -14,7 +14,7 @@ export const api = createApi({
     },
   }),
   reducerPath: "posts-api",
-  tagTypes: ["Posts", "Post", "PostAnswers", "PostCategories"],
+  tagTypes: ["Posts", "PostsList", "Post", "PostAnswers", "PostCategories"],
   endpoints: (build) => ({
     getPosts: build.query({
       query: (
@@ -62,7 +62,8 @@ export const api = createApi({
       ) {
         const patchResult = dispatch(
           api.util.updateQueryData("getPost", id, (draft) => {
-            Object.assign(draft, { title, content });
+            const patch = { ...(title && title), ...(content && content) };
+            Object.assign(draft, patch);
           })
         );
         queryFulfilled.catch(patchResult.undo);
@@ -73,15 +74,11 @@ export const api = createApi({
       ],
     }),
     deletePost: build.mutation({
-      query: ({ id }) => ({
+      query: (id) => ({
         url: `/posts/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (_r, _e, arg) => [
-        { type: "Post", id: arg.id },
-        { type: "Posts", id: arg.id },
-        { type: "PostCategories", id: arg.id },
-      ],
+      invalidatesTags: ["Posts"],
     }),
     createPostAnswer: build.mutation({
       query: ({ postId, body: { content } }) => ({
