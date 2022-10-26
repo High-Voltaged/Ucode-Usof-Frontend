@@ -1,6 +1,6 @@
 import { colors } from "~/theme/config";
 
-const { Text } = require("@nextui-org/react");
+import { Text } from "@nextui-org/react";
 
 const Heading = ({ text }) => {
   return (

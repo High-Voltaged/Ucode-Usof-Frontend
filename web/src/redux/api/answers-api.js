@@ -14,13 +14,14 @@ export const api = createApi({
     },
   }),
   reducerPath: "answers-api",
-  tagTypes: ["Answers"],
+  tagTypes: ["Answers", "Comments"],
   endpoints: (build) => ({
     getAnswerLikes: build.query({
       query: (answerId) => `/answers/${answerId}/like`,
     }),
     getComments: build.query({
       query: (answerId) => `/answers/${answerId}/comments`,
+      providesTags: ["Comments"],
     }),
     addAnswerComment: build.mutation({
       query: ({ answerId, body: { content } }) => ({
@@ -28,14 +29,30 @@ export const api = createApi({
         method: "post",
         body: { content },
       }),
-      async onQueryStarted({ answerId, body }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          api.util.updateQueryData("getComments", answerId, (draft) => {
-            draft.push(body);
-          })
-        );
-        queryFulfilled.catch(patchResult.undo);
-      },
+      // async onQueryStarted({ answerId, body }, { dispatch, queryFulfilled }) {
+      //   const patchResult = dispatch(
+      //     api.util.updateQueryData("getComments", answerId, (draft) => {
+      //       draft.push(body);
+      //     })
+      //   );
+      //   queryFulfilled.catch(patchResult.undo);
+      // },
+      invalidatesTags: ["Comments"],
+    }),
+    editComment: build.mutation({
+      query: ({ commentId, body }) => ({
+        url: `/comments/${commentId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Comments"],
+    }),
+    deleteComment: build.mutation({
+      query: (commentId) => ({
+        url: `/comments/${commentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Comments"],
     }),
     addAnswerLike: build.mutation({
       query: ({ answerId, type }) => ({
@@ -70,4 +87,6 @@ export const {
   useGetCommentsQuery,
   useAddAnswerLikeMutation,
   useAddAnswerCommentMutation,
+  useEditCommentMutation,
+  useDeleteCommentMutation,
 } = api;

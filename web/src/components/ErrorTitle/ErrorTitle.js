@@ -1,4 +1,4 @@
-const { Text } = require("@nextui-org/react");
+import { Text } from "@nextui-org/react";
 
 const ErrorTitle = ({ text, size }) => {
   return (

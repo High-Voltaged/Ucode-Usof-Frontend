@@ -1,4 +1,4 @@
-const { Grid, Button, Row, Text } = require("@nextui-org/react");
+import { Button, Grid, Row, Text } from "@nextui-org/react";
 
 const BasePopover = ({ message, onCancel, onConfirm }) => {
   return (

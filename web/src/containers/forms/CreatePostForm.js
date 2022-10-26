@@ -2,7 +2,7 @@ import { Row } from "@nextui-org/react";
 import Select from "react-select/async";
 import InputField from "~/components/InputField/InputField";
 import Editor from "~/containers/editor/Editor";
-import styles from "./CreatePostForm.styles";
+import { form as styles } from "~/styles/edit-styles";
 
 const CreatePostForm = ({
   formik: { values, errors, touched, handleSubmit, handleBlur, setFieldValue },
@@ -47,7 +47,6 @@ const CreatePostForm = ({
           value={values.categories}
           onChange={(opts) => setFieldValue("categories", opts)}
           loadOptions={loadOptions}
-          // cacheOptions
           isMulti
           isLoading={loading}
         />

@@ -1,7 +1,6 @@
 import { colors } from "~/theme/config";
 import useAlert from "~/hooks/use-alert";
-
-const { useCallback } = require("react");
+import { useCallback } from "react";
 
 const useRequest = (mutation, successMsg) => {
   const { setAlert } = useAlert();

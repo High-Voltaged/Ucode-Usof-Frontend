@@ -7,7 +7,11 @@ const SUCCESS = {
   POST_UPDATE: "The post was successfully updated!",
   POST_DELETION: "The post was successfully deleted!",
   ANSWER_CREATION: "The answer was successfully created!",
+  ANSWER_UPDATE: "The answer was successfully updated!",
+  ANSWER_DELETION: "The answer was successfully deleted!",
   COMMENT_CREATION: "The comment was successfully created!",
+  COMMENT_UPDATE: "The comment was successfully updated!",
+  COMMENT_DELETION: "The comment was successfully deleted!",
 };
 
 export { SUCCESS };

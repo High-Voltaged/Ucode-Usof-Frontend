@@ -1,6 +1,6 @@
 import { colors } from "~/theme/config";
 
-const { Button, Loading } = require("@nextui-org/react");
+import { Button, Loading } from "@nextui-org/react";
 
 const BaseButton = ({ text, loading, block = false, ...props }) => {
   return (

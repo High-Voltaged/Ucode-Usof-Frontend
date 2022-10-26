@@ -14,29 +14,47 @@ import { LIKES_ENUM } from "~/consts/validation";
 import useDomPurify from "~/hooks/use-dom-purify";
 import LikeButton from "../Button/LikeButton";
 import DislikeButton from "../Button/DislikeButton";
-import EditDeleteBtns from "../Button/EditButton";
+import EditButton from "../Button/EditButton";
 import { postNav } from "~/consts/routes";
+import { useNavigate } from "react-router-dom";
+import useAuthCheck from "~/hooks/use-auth-check";
 
 const PostCard = ({
-  post: { id, title, content, authorLogin, authorAvatar, publishDate, rating },
+  post: {
+    id,
+    title,
+    content,
+    author: authorId,
+    authorLogin,
+    authorAvatar,
+    publishDate,
+    rating,
+  },
   onPress = null,
   ...props
 }) => {
-  const isPostPage = onPress === null;
   const { date } = useDate(publishDate);
   const { authorLike, author } = useAuthorLike(id, useGetPostLikesQuery);
+  const { authCheck } = useAuthCheck();
   const { sanitized } = useDomPurify(content);
+  const navigate = useNavigate();
+
+  const isPostAuthor = author === authorId;
+  const isPostPage = onPress === null;
 
   const { data: categoriesData } = useGetPostCategoriesQuery(id);
   const [addLike] = useAddPostLikeMutation();
 
   const addLikeHandler = () =>
-    addLike({ postId: id, type: LIKES_ENUM[0], author });
+    authCheck(() => addLike({ postId: id, type: LIKES_ENUM[0], author }));
+
   const addDislikeHandler = () =>
-    addLike({ postId: id, type: LIKES_ENUM[1], author });
+    authCheck(() => addLike({ postId: id, type: LIKES_ENUM[1], author }));
 
   const [categories, setCategories] = useState([]);
   const categoryBadges = <CategoryBadges categories={categories} />;
+
+  const editHandler = () => navigate(postNav.edit(id));
 
   useEffect(() => {
     categoriesData && setCategories(categoriesData);
@@ -72,19 +90,18 @@ const PostCard = ({
             )}
           </Card.Body>
           <Card.Footer css={footerStyles}>
-            <Grid.Container
-              gap={2}
-              css={{ px: 0, flexWrap: "wrap" }}
-              alignItems="center"
-            >
+            <Grid.Container gap={2} css={styles.footerGrid}>
               <Grid xs={12}>{categoryBadges}</Grid>
-              {isPostPage && (
+              {isPostPage && isPostAuthor && (
                 <Grid xs={2}>
-                  <EditDeleteBtns routeTo={postNav.edit(id)} />
+                  <EditButton onPress={editHandler} />
                 </Grid>
               )}
-              <Grid xs={isPostPage ? 10 : 12} css={{ jc: "flex-end" }}>
-                <Avatar size="sm" src={AVATAR_PATH(authorAvatar)} />
+              <Grid
+                xs={isPostPage && isPostAuthor ? 10 : 12}
+                css={{ jc: "flex-end" }}
+              >
+                <Avatar size={styles.avatar} src={AVATAR_PATH(authorAvatar)} />
                 <Text size="xs" css={styles.footerItem}>
                   {authorLogin}
                 </Text>

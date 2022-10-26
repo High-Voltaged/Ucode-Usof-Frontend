@@ -1,5 +1,5 @@
-const { useContext, useCallback } = require("react");
-const { AlertContext } = require("~/context/Alert");
+import { useCallback, useContext } from "react";
+import { AlertContext } from "~/context/Alert";
 
 const useAlert = () => {
   const { setAlert: alert } = useContext(AlertContext);

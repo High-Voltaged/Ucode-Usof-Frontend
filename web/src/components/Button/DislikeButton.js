@@ -1,7 +1,6 @@
-const { Button } = require("@nextui-org/react");
-const { FaChevronDown } = require("react-icons/fa");
-
-const { LIKES_ENUM } = require("~/consts/validation");
+import { Button } from "@nextui-org/react";
+import { FaChevronDown } from "react-icons/fa";
+import { LIKES_ENUM } from "~/consts/validation";
 
 const DislikeButton = ({ like, handler, ...props }) => {
   return (

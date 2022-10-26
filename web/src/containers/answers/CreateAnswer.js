@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import BaseButton from "~/components/Button/Button";
 import { SUCCESS } from "~/consts/messages";
 import Editor from "~/containers/editor/Editor";
+import useAuthCheck from "~/hooks/use-auth-check";
 import useRequest from "~/hooks/use-request";
 import { useCreatePostAnswerMutation } from "~/redux/api/posts-api";
 import { colors } from "~/theme/config";
@@ -12,6 +13,7 @@ import { createSchema } from "~/validation/answers";
 import styles from "./CreateAnswer.styles";
 
 const CreateAnswer = ({ postId }) => {
+  const { authCheck } = useAuthCheck();
   const [isExpanded, setIsExpanded] = useState(false);
   const {
     user: { login },
@@ -43,7 +45,7 @@ const CreateAnswer = ({ postId }) => {
           color={isExpanded ? colors.error : colors.feature}
           flat={isExpanded}
           size="md"
-          onPress={() => setIsExpanded((prev) => !prev)}
+          onPress={() => authCheck(() => setIsExpanded((prev) => !prev))}
         />
         {isExpanded && (
           <BaseButton

@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react";
 import { FaChevronUp } from "react-icons/fa";
 
-const { LIKES_ENUM } = require("~/consts/validation");
+import { LIKES_ENUM } from "~/consts/validation";
 
 const LikeButton = ({ like, handler, ...props }) => {
   return (

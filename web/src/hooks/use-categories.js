@@ -1,5 +1,5 @@
-const { useState, useEffect } = require("react");
-const { useGetCategoriesQuery } = require("~/redux/api/posts-api");
+import { useEffect, useState } from "react";
+import { useGetCategoriesQuery } from "~/redux/api/posts-api";
 
 const useCategories = () => {
   const { data, isFetching: isCategoryFetching } = useGetCategoriesQuery();

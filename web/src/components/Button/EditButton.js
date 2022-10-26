@@ -1,24 +1,20 @@
-const { Grid, Button } = require("@nextui-org/react");
-const { FaEdit } = require("react-icons/fa");
-const { useNavigate } = require("react-router-dom");
-const { colors } = require("~/theme/config");
+import { Grid, Button } from "@nextui-org/react";
+import { FaEdit } from "react-icons/fa";
+import { colors } from "~/theme/config";
 
-const EditButton = ({ routeTo }) => {
-  const navigate = useNavigate();
-  const handler = () => navigate(routeTo);
-
-  return (
-    <Grid.Container>
-      <Grid>
-        <Button
-          auto
-          color={colors.success}
-          onPress={handler}
-          icon={<FaEdit size={12} />}
-        />
-      </Grid>
-    </Grid.Container>
-  );
-};
+const EditButton = ({ ...props }) => (
+  <Grid.Container>
+    <Grid>
+      <Button
+        auto
+        flat
+        color={colors.success}
+        icon={<FaEdit size={12} />}
+        css={{ minWidth: "auto" }}
+        {...props}
+      />
+    </Grid>
+  </Grid.Container>
+);
 
 export default EditButton;

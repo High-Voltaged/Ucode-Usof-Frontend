@@ -1,4 +1,4 @@
-const { useState } = require("react");
+import { useState } from "react";
 
 const usePagination = () => {
   const [pageData, setPageData] = useState({ page: 1, pages: 0 });

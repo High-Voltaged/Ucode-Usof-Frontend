@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { Button, Card, Grid, Popover } from "@nextui-org/react";
+import { Card, Grid } from "@nextui-org/react";
 import BaseButton from "~/components/Button/Button";
 import ErrorTitle from "~/components/ErrorTitle/ErrorTitle";
 import Heading from "~/components/Heading/Heading";
@@ -14,18 +13,15 @@ import {
 } from "~/redux/api/posts-api";
 import { createSchema } from "~/validation/posts";
 import CreatePostForm from "~/containers/forms/CreatePostForm";
-import styles from "./CreatePost.styles";
+import { container as styles } from "~/styles/edit-styles";
 import useCategories from "~/hooks/use-categories";
 import { getInitValues } from "./const";
 import useRequest from "~/hooks/use-request";
 import { SUCCESS } from "~/consts/messages";
-import { colors } from "~/theme/config";
-import BasePopover from "~/components/popover/Popover";
 import { postNav } from "~/consts/routes";
+import PopoverMenu from "~/components/popover/PopoverMenu";
 
 const EditPostContainer = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: post, isFetching, error } = useGetPostQuery(Number(id));
@@ -114,20 +110,12 @@ const EditPostContainer = () => {
                   <BaseButton text="Update the post" loading={editLoading} />
                 </Grid>
                 <Grid>
-                  <Popover isOpen={isOpen} onOpenChange={setIsOpen}>
-                    <Popover.Trigger>
-                      <Button color={colors.error} size="lg" flat>
-                        {deleteLoading ? <Loader /> : "Delete"}
-                      </Button>
-                    </Popover.Trigger>
-                    <Popover.Content>
-                      <BasePopover
-                        onCancel={() => setIsOpen(false)}
-                        onConfirm={onConfirm}
-                        message="Are you sure you want to delete this post?"
-                      />
-                    </Popover.Content>
-                  </Popover>
+                  <PopoverMenu
+                    btnSize="lg"
+                    btnLoading={deleteLoading}
+                    onConfirm={onConfirm}
+                    message="Are you sure you want to delete this post"
+                  />
                 </Grid>
               </Grid.Container>
             </CreatePostForm>

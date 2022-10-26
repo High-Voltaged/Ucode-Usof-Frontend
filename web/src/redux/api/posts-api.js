@@ -88,6 +88,21 @@ export const api = createApi({
       }),
       invalidatesTags: ["PostAnswers"],
     }),
+    editPostAnswer: build.mutation({
+      query: ({ answerId, body }) => ({
+        url: `/answers/${answerId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["PostAnswers"],
+    }),
+    deletePostAnswer: build.mutation({
+      query: (answerId) => ({
+        url: `/answers/${answerId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["PostAnswers"],
+    }),
     addPostLike: build.mutation({
       query: ({ postId, type }) => ({
         url: `/posts/${postId}/like`,
@@ -135,4 +150,6 @@ export const {
   useEditPostMutation,
   useDeletePostMutation,
   useCreatePostAnswerMutation,
+  useEditPostAnswerMutation,
+  useDeletePostAnswerMutation,
 } = api;

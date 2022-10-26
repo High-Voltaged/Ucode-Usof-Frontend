@@ -5,12 +5,14 @@ import { useSelector } from "react-redux";
 import BaseButton from "~/components/Button/Button";
 import InputField from "~/components/InputField/InputField";
 import { SUCCESS } from "~/consts/messages";
+import useAuthCheck from "~/hooks/use-auth-check";
 import useRequest from "~/hooks/use-request";
 import { useAddAnswerCommentMutation } from "~/redux/api/answers-api";
 import { colors } from "~/theme/config";
 import { createSchema } from "~/validation/comments";
 
 const CreateComment = ({ answerId }) => {
+  const { authCheck } = useAuthCheck();
   const [isExpanded, setIsExpanded] = useState(false);
   const {
     user: { login },
@@ -48,7 +50,7 @@ const CreateComment = ({ answerId }) => {
           color={isExpanded ? colors.error : colors.feature}
           size="sm"
           bordered
-          onPress={() => setIsExpanded((prev) => !prev)}
+          onPress={() => authCheck(() => setIsExpanded((prev) => !prev))}
         />
         {isExpanded && (
           <BaseButton
@@ -69,6 +71,7 @@ const CreateComment = ({ answerId }) => {
             error={Boolean(touched.content && errors.content)}
             onBlur={handleBlur}
             setFieldValue={setFieldValue}
+            isLast
             helperText={touched.content && errors.content}
           />
         </Grid>
