@@ -53,15 +53,22 @@ const EditPostContainer = () => {
         const newCategories = options.map((o) => o.value);
         const oldCategories = categories.map((c) => c.id);
 
+        values.content = values.content.replaceAll(/<p><br><\/p>/g, "");
+
         const body = {};
         if (JSON.stringify(newCategories) !== JSON.stringify(oldCategories)) {
           body.categories = newCategories;
         }
         Object.entries(values).forEach(([key, value]) => {
           if (post[key] !== value) {
+            console.log(post[key], value);
             body[key] = value;
           }
         });
+
+        if (!Object.keys(body).length) {
+          return;
+        }
 
         await editRequest({ id: Number(id), body }, null);
       },
