@@ -42,7 +42,7 @@ const SortDropdown = ({ setSort }) => {
       <Dropdown.Button
         flat
         color={colors.feature}
-        css={{ tt: "capitalize" }}
+        css={{ tt: "capitalize", zIndex: 100 }}
         icon={<FaSort />}
       >
         {selectedValue}

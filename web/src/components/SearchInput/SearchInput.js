@@ -20,7 +20,7 @@ const SearchInput = () => {
   });
 
   return (
-    <Grid.Container css={{ position: "relative", ai: "center" }} gap={1}>
+    <Grid.Container css={{ ai: "center", zIndex: 250 }} gap={1}>
       <Grid xs={7} sm={8}>
         <InputField
           name="search"

@@ -51,7 +51,7 @@ const SearchDropdown = ({
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
     .slice(0, 5)
     .map((p) => (
-      <Grid xs={12} css={{ p: 5 }}>
+      <Grid xs={12} css={{ p: 5 }} key={p.id}>
         <Card
           css={{ p: 10 }}
           variant="bordered"
