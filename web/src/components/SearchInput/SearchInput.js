@@ -44,16 +44,14 @@ const SearchInput = () => {
         />
       </Grid>
       {dropdown && (
-        <Grid xs={12}>
-          <SearchDropdown
-            search={values.search}
-            error={error}
-            isFetching={isFetching}
-            posts={data.posts}
-            setDropdown={setDropdown}
-            resetSearch={() => setFieldValue("search", "")}
-          />
-        </Grid>
+        <SearchDropdown
+          search={values.search}
+          error={error}
+          isFetching={isFetching}
+          posts={data.posts}
+          setDropdown={setDropdown}
+          resetSearch={() => setFieldValue("search", "")}
+        />
       )}
     </Grid.Container>
   );
