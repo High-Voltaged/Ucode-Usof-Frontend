@@ -63,7 +63,7 @@ const UpdateProfileForm = () => {
       />
       <InputField
         name="fullName"
-        label="Your fullName"
+        label="Your full name"
         contentLeft={<FaAt />}
         value={values.fullName}
         error={Boolean(touched.fullName && errors.fullName)}

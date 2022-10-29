@@ -9,7 +9,7 @@ const DislikeButton = ({ like, handler, ...props }) => {
       flat={like === LIKES_ENUM[1]}
       auto
       color={like === LIKES_ENUM[1] ? "error" : "default"}
-      css={{ minWidth: "auto" }}
+      css={{ minWidth: "auto", px: 8 }}
       icon={<FaChevronDown size={20} />}
       onPress={handler}
       {...props}

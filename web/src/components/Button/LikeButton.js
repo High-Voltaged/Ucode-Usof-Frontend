@@ -10,7 +10,7 @@ const LikeButton = ({ like, handler, ...props }) => {
       flat={like === LIKES_ENUM[0]}
       color={like === LIKES_ENUM[0] ? "success" : "default"}
       auto
-      css={{ minWidth: "auto" }}
+      css={{ minWidth: "auto", px: 8 }}
       icon={<FaChevronUp size={20} />}
       onPress={handler}
       {...props}

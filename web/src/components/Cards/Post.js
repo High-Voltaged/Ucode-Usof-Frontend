@@ -18,6 +18,7 @@ import EditButton from "../Button/EditButton";
 import { postNav } from "~/consts/routes";
 import { useNavigate } from "react-router-dom";
 import useAuthCheck from "~/hooks/use-auth-check";
+import ErrorTitle from "../ErrorTitle/ErrorTitle";
 
 const PostCard = ({
   post: {
@@ -42,7 +43,7 @@ const PostCard = ({
   const isPostAuthor = author === authorId;
   const isPostPage = onPress === null;
 
-  const { data: categoriesData } = useGetPostCategoriesQuery(id);
+  const { data: categoriesData, error } = useGetPostCategoriesQuery(id);
   const [addLike] = useAddPostLikeMutation();
 
   const addLikeHandler = () =>
@@ -52,7 +53,11 @@ const PostCard = ({
     authCheck(() => addLike({ postId: id, type: LIKES_ENUM[1], author }));
 
   const [categories, setCategories] = useState([]);
-  const categoryBadges = <CategoryBadges categories={categories} />;
+  const categoryBadges = error ? (
+    <ErrorTitle size={14} text="The post is inactive" />
+  ) : (
+    <CategoryBadges categories={categories} />
+  );
 
   const editHandler = () => navigate(postNav.edit(id));
 
