@@ -12,6 +12,8 @@ const SUCCESS = {
   COMMENT_CREATION: "The comment was successfully created!",
   COMMENT_UPDATE: "The comment was successfully updated!",
   COMMENT_DELETION: "The comment was successfully deleted!",
+  PROFILE_UPDATE: "Your profile has been successfully updated!",
+  AVATAR_UPDATE: "Your avatar has been successfully updated!",
 };
 
 export { SUCCESS };

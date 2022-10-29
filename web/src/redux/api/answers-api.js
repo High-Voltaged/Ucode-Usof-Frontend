@@ -29,14 +29,6 @@ export const api = createApi({
         method: "post",
         body: { content },
       }),
-      // async onQueryStarted({ answerId, body }, { dispatch, queryFulfilled }) {
-      //   const patchResult = dispatch(
-      //     api.util.updateQueryData("getComments", answerId, (draft) => {
-      //       draft.push(body);
-      //     })
-      //   );
-      //   queryFulfilled.catch(patchResult.undo);
-      // },
       invalidatesTags: ["Comments"],
     }),
     editComment: build.mutation({

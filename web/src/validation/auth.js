@@ -32,3 +32,9 @@ export const resetPassSchema = Yup.object().shape({
     .min(PASSWORD_LIMITS[0])
     .max(PASSWORD_LIMITS[1]),
 });
+
+export const updateProfileSchema = Yup.object().shape({
+  login: Yup.string().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
+  email: Yup.string().email(),
+  fullName: Yup.string().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
+});

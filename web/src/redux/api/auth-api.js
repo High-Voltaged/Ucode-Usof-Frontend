@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { logout, resetUser, setToken, setUser } from "../auth-slice";
+import {
+  logout,
+  resetUser,
+  setToken,
+  setUser,
+  updateUser,
+} from "../auth-slice";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -16,6 +22,12 @@ export const api = createApi({
   reducerPath: "auth-api",
   tagTypes: ["Auth"],
   endpoints: (build) => ({
+    getMyPosts: build.query({
+      query: ({ page } = { page: 1 }) => ({
+        url: `/users/profile/posts`,
+        params: { page, limit: 6 },
+      }),
+    }),
     authenticate: build.query({
       query: () => `/users/profile/me`,
 
@@ -26,6 +38,30 @@ export const api = createApi({
         } catch (error) {}
       },
       providesTags: ["Auth"],
+    }),
+    updateAvatar: build.mutation({
+      query: ({ body }) => ({
+        url: `/users/profile/avatar`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Auth"],
+    }),
+    updateProfile: build.mutation({
+      query: ({ body }) => ({
+        url: `/users/profile`,
+        method: "PATCH",
+        body,
+      }),
+      async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          api.util.updateQueryData("authenticate", undefined, (draft) => {
+            Object.assign(draft, body);
+          })
+        );
+        dispatch(updateUser(body));
+        queryFulfilled.catch(patchResult.undo);
+      },
     }),
     login: build.mutation({
       query: (data) => ({
@@ -106,4 +142,7 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useConfirmEmailMutation,
+  useGetMyPostsQuery,
+  useUpdateProfileMutation,
+  useUpdateAvatarMutation,
 } = api;

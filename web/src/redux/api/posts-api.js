@@ -56,14 +56,10 @@ export const api = createApi({
         method: "PATCH",
         body,
       }),
-      async onQueryStarted(
-        { id, body: { title, content } },
-        { dispatch, queryFulfilled }
-      ) {
+      async onQueryStarted({ id, body }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           api.util.updateQueryData("getPost", id, (draft) => {
-            const patch = { ...(title && title), ...(content && content) };
-            Object.assign(draft, patch);
+            Object.assign(draft, body);
           })
         );
         queryFulfilled.catch(patchResult.undo);

@@ -20,9 +20,16 @@ const resetPasswordValues = {
   password: "",
 };
 
+const getProfileValues = (user) => ({
+  login: (user || {}).login || "",
+  email: (user || {}).email || "",
+  fullName: (user || {}).fullName || "",
+});
+
 export {
   registerValues,
   loginValues,
   forgotPasswordValues,
   resetPasswordValues,
+  getProfileValues,
 };

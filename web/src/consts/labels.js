@@ -17,4 +17,9 @@ const sortLabels = [
   { label: "Likes Count", sortBy: "likes" },
 ];
 
-export { links, dropdownLabels, sortLabels };
+const profileTabs = [
+  { id: 0, label: "Posts" },
+  { id: 1, label: "Settings" },
+];
+
+export { links, dropdownLabels, sortLabels, profileTabs };

@@ -8,6 +8,7 @@ import Posts from "./posts/Posts";
 import Post from "./posts/Post";
 import CreatePost from "./posts/CreatePost";
 import EditPost from "./posts/EditPost";
+import Profile from "./profile/Profile";
 
 import NotFound from "./error/NotFound";
 
@@ -23,4 +24,5 @@ export {
   NotFound,
   CreatePost,
   EditPost,
+  Profile,
 };

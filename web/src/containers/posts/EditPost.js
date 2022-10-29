@@ -20,6 +20,7 @@ import useRequest from "~/hooks/use-request";
 import { SUCCESS } from "~/consts/messages";
 import { postNav } from "~/consts/routes";
 import PopoverMenu from "~/components/popover/PopoverMenu";
+import updateFilter from "~/utils/update-filter";
 
 const EditPostContainer = () => {
   const { id } = useParams();
@@ -55,16 +56,11 @@ const EditPostContainer = () => {
 
         values.content = values.content.replaceAll(/<p><br><\/p>/g, "");
 
-        const body = {};
+        let body = {};
         if (JSON.stringify(newCategories) !== JSON.stringify(oldCategories)) {
           body.categories = newCategories;
         }
-        Object.entries(values).forEach(([key, value]) => {
-          if (post[key] !== value) {
-            console.log(post[key], value);
-            body[key] = value;
-          }
-        });
+        Object.assign(body, updateFilter(values, post));
 
         if (!Object.keys(body).length) {
           return;

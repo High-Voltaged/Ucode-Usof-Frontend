@@ -11,10 +11,12 @@ const accessToken = getLocalStorageItem("accessToken") || null;
 const initialState = {
   user: {
     id: "",
-    role: "",
+    role: "user",
+    fullName: "",
     email: "",
     login: "",
     avatar: "",
+    rating: 0,
   },
   accessToken,
   error: "",
@@ -28,8 +30,10 @@ const authSlice = createSlice({
       state.user = initialState.user;
     },
     setUser(state, { payload }) {
-      const { id, role, email, login, avatar } = payload;
-      state.user = { id, role, email, login, avatar };
+      state.user = payload;
+    },
+    updateUser(state, { payload }) {
+      Object.assign(state.user, payload);
     },
     setToken(state, { payload }) {
       const { accessToken } = payload;
@@ -53,5 +57,5 @@ const authSlice = createSlice({
 
 const { reducer, actions } = authSlice;
 
-export const { resetUser, setUser, setToken, logout } = actions;
+export const { resetUser, setUser, setToken, logout, updateUser } = actions;
 export default reducer;
