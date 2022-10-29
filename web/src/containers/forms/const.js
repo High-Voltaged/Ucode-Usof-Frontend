@@ -1,6 +1,5 @@
 const loginValues = {
   login: "",
-  email: "",
   password: "",
 };
 

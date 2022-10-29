@@ -1,9 +1,8 @@
 import { colors } from "~/theme/config";
-import { mainRoutes, postNav } from "~/consts/routes";
+import { postNav } from "~/consts/routes";
 
 const links = [
   { label: "Posts", href: postNav.posts },
-  { label: "Categories", href: mainRoutes.categories },
   { label: "Ask a question", href: postNav.create },
 ];
 

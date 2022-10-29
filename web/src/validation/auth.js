@@ -3,7 +3,6 @@ import { NAME_LIMITS, PASSWORD_LIMITS } from "~/consts/validation";
 
 export const loginSchema = Yup.object().shape({
   login: Yup.string().required(),
-  email: Yup.string().email().required(),
   password: Yup.string().required(),
 });
 

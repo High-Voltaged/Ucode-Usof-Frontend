@@ -10,7 +10,6 @@ const mainRoutes = {
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
   confirmEmail: "/confirm-email",
-  landing: "/",
   categories: "/categories",
 };
 
@@ -25,7 +24,7 @@ const postRoutes = {
 };
 
 const postNav = {
-  posts: "/posts",
+  posts: "/",
   post: (id) => `/posts/${id}`,
   create: "/posts/create",
   edit: (id) => `/posts/edit/${id}`,

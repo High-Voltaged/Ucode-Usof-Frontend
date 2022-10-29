@@ -3,17 +3,17 @@ import { mainRoutes } from "~/consts/routes";
 import {
   ResetPassword,
   ForgotPassword,
-  LandingPage,
   Login,
   Register,
   NotFound,
   ConfirmEmail,
+  Posts,
 } from "~/pages";
 
 const MainRoutes = () => {
   return (
     <Routes>
-      <Route index element={<LandingPage />} />
+      <Route index element={<Posts />} />
       <Route path={mainRoutes.login} element={<Login />} />
       <Route path={mainRoutes.register} element={<Register />} />
       <Route path={mainRoutes.resetPassword} element={<ResetPassword />} />

@@ -1,7 +1,7 @@
 import { Link, Row } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { FaAt, FaLock, FaUser } from "react-icons/fa";
+import { FaLock, FaUser } from "react-icons/fa";
 
 import InputField from "~/components/InputField/InputField";
 import { loginSchema } from "~/validation/auth";
@@ -47,17 +47,6 @@ const LoginForm = () => {
         onBlur={handleBlur}
         setFieldValue={setFieldValue}
         helperText={touched.login && errors.login}
-      />
-      <InputField
-        name="email"
-        label="Your email"
-        placeholder="test@gmail.com"
-        contentLeft={<FaAt />}
-        value={values.email}
-        error={Boolean(touched.email && errors.email)}
-        onBlur={handleBlur}
-        setFieldValue={setFieldValue}
-        helperText={touched.email && errors.email}
       />
       <InputField
         name="password"
