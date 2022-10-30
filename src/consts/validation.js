@@ -3,8 +3,8 @@ const STATUS_ENUM = ["active", "inactive"];
 const LIKES_ENUM = ["like", "dislike"];
 
 const NAME_LIMITS = [4, 16];
-const TITLE_LIMITS = [8, 20];
-const CONTENT_LIMITS = [24, 1000];
+const TITLE_LIMITS = [3, 100];
+const CONTENT_LIMITS = [10, 1000];
 
 const PASSWORD_LIMITS = [8, 20];
 

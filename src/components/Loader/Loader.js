@@ -2,10 +2,13 @@ import { Loading } from "@nextui-org/react";
 import Layout from "~/containers/layout/Layout";
 import { colors } from "~/theme/config";
 
-const Loader = ({ isFullScreen = true }) => {
+const Loader = ({ size = null, isFullScreen = true }) => {
   const loader = (
     <Loading
-      loadingCss={{ $$loadingSize: "120px", $$loadingBorder: "8px" }}
+      size={size || "md"}
+      loadingCss={
+        !size ? { $$loadingSize: "120px", $$loadingBorder: "8px" } : {}
+      }
       color={colors.feature}
     />
   );

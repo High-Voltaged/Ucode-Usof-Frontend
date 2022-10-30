@@ -74,6 +74,13 @@ const AppNavbar = () => {
             <NavDropdown>
               <Dropdown.Trigger>{userAvatar}</Dropdown.Trigger>
             </NavDropdown>
+            <Text
+              size={14}
+              css={{ d: "none", "@xs": { d: "block" } }}
+              color={colors.secondary}
+            >
+              {user.role}
+            </Text>
           </>
         ) : (
           <>

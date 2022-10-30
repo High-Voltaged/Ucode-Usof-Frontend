@@ -38,7 +38,7 @@ const PostsTab = () => {
 
   const postCards = (posts || []).map((post) => {
     return (
-      <Grid xs={12} sm={6} key={post.id}>
+      <Grid xs={12} sm={6} key={post.id} css={{ d: "flex", ai: "center" }}>
         <PostCard
           post={post}
           isPressable

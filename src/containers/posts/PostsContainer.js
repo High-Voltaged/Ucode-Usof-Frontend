@@ -63,6 +63,7 @@ const PostsContainer = () => {
       <Grid.Container
         gap={2}
         alignContent="flex-start"
+        alignItems="center"
         justify="center"
         css={{ mt: "15px" }}
       >

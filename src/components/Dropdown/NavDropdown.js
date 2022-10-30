@@ -13,7 +13,7 @@ const NavDropdown = ({ children }) => {
   const [logout, { isLoading }] = useLogoutMutation();
 
   if (isLoading) {
-    return <Loader isFullScreen />;
+    return <Loader size="md" isFullScreen={false} />;
   }
 
   const dropdownItems = dropdownLabels.map((item, idx) => (

@@ -20,13 +20,14 @@ export const api = createApi({
     credentials: "include",
   }),
   reducerPath: "auth-api",
-  tagTypes: ["Auth"],
+  tagTypes: ["Auth", "MyPosts"],
   endpoints: (build) => ({
     getMyPosts: build.query({
       query: ({ page } = { page: 1 }) => ({
         url: `/users/profile/posts`,
         params: { page, limit: 6 },
       }),
+      providesTags: ["MyPosts"],
     }),
     authenticate: build.query({
       query: () => `/users/profile/me`,
@@ -102,6 +103,7 @@ export const api = createApi({
           dispatch(resetUser());
         } catch (error) {}
       },
+      invalidatesTags: ["MyPosts"],
     }),
     register: build.mutation({
       query: (data) => ({
