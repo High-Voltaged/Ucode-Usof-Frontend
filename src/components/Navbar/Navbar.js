@@ -47,8 +47,17 @@ const AppNavbar = () => {
       <Navbar.Content gap={6}>
         <Navbar.Toggle showIn="sm" />
         <Navbar.Brand hideIn="xs">
-          <Text b color="inherit">
-            Brand
+          <Text
+            css={{
+              ml: 5,
+              us: "none",
+              textGradient: "45deg, $yellow600 15%, $purple600",
+            }}
+            color="inherit"
+            size={30}
+            weight="bold"
+          >
+            TechHub
           </Text>
         </Navbar.Brand>
       </Navbar.Content>
