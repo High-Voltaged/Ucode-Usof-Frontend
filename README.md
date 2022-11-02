@@ -19,3 +19,7 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## Docker 
+
+You can also run this app as a multi-container project. Please read the instructions to do so here - https://github.com/High-Voltaged/Ucode-Usof-Backend.
