@@ -23,3 +23,14 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Docker 
 
 You can also run this app as a multi-container project. Please read the instructions to do so here - https://github.com/High-Voltaged/Ucode-Usof-Backend.
+
+## Demo
+
+### Profile
+|![profile-posts](https://user-images.githubusercontent.com/71522782/200069430-3f3c3530-0ee1-4439-ad95-5a09ae90a1a7.png)|![profile-settings](https://user-images.githubusercontent.com/71522782/200069433-471b791d-a410-4f0d-8d5c-069aa78270a0.png)|
+| :----: | :----: |
+### The Posts Page
+|![posts-filtering](https://user-images.githubusercontent.com/71522782/200070293-41ec23bb-1e38-44ee-a460-2fb4d68797e5.png)|![posts-search](https://user-images.githubusercontent.com/71522782/200070983-d2f66fc9-3a72-4a21-b658-c706ad8e176e.png)|
+| :----: | :----: |
+
+
